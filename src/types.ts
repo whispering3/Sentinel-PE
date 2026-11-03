@@ -157,6 +157,18 @@ export type SuspiciousProcess = {
   reason: string
 }
 
+export type ScanProgress = {
+  running: boolean
+  mode: 'quick' | 'custom' | 'idle'
+  scanned: number
+  total: number
+  threats: number
+  currentFile: string
+  startedAt?: string
+  completedAt?: string
+  aborted?: boolean
+}
+
 export type GuardStatus = {
   enabled: boolean
   autoQuarantine: boolean
@@ -169,12 +181,16 @@ export type GuardStatus = {
   lastScanAt?: string
   alerts: GuardAlert[]
   quarantine: QuarantineItem[]
+  scanProgress?: ScanProgress
 }
 
 export interface SentinelGuardAPI {
+  getFilePath?: (file: File) => string
   getStatus: () => Promise<GuardStatus>
   setConfig: (config: { enabled?: boolean; autoQuarantine?: boolean; canaryEnabled?: boolean }) => Promise<GuardStatus>
-  scanDirectory: () => Promise<{ scanned: number; threats: number }>
+  scanDirectory: () => Promise<{ scanned: number; threats: number; aborted?: boolean }>
+  startQuickScan?: () => Promise<{ scanned: number; threats: number; aborted?: boolean }>
+  stopScan?: () => Promise<{ ok: boolean }>
   quarantineFile: (filePath: string, reason?: string) => Promise<{ ok: boolean; error?: string }>
   restoreQuarantine: (id: string) => Promise<{ ok: boolean; error?: string }>
   deleteQuarantine: (id: string) => Promise<{ ok: boolean; error?: string }>

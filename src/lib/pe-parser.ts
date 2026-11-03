@@ -237,11 +237,11 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
 
   const exportDirRva = dirRva(0)
   const importDirRva = dirRva(1)
-  const certRva      = dirRva(4);  const certSize = dirSize(4)
-  const debugRva     = dirRva(6);  const debugSize = dirSize(6)
-  const tlsRva       = dirRva(9)
-  const delayImpRva  = dirRva(13); const delayImpSize = dirSize(13)
-  const clrRva       = dirRva(14); const clrSize = dirSize(14)
+  const certRva = dirRva(4); const certSize = dirSize(4)
+  const debugRva = dirRva(6); const debugSize = dirSize(6)
+  const tlsRva = dirRva(9)
+  const delayImpRva = dirRva(13); const delayImpSize = dirSize(13)
+  const clrRva = dirRva(14); const clrSize = dirSize(14)
 
   // ── Section Table ─────────────────────────────────────────────────────────
   const sectionBase = optionalOffset + optionalSize
@@ -252,11 +252,11 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
     const off = sectionBase + i * 40
     if (off < 0 || off > fileLen - 40) break
     const name = readAscii(view, off, 8)
-    const virtualSize    = readU32(view, off + 8)
+    const virtualSize = readU32(view, off + 8)
     const virtualAddress = readU32(view, off + 12)
-    const rawSize        = readU32(view, off + 16)
-    const rawOffset      = readU32(view, off + 20)
-    const chars          = readU32(view, off + 36)
+    const rawSize = readU32(view, off + 16)
+    const rawOffset = readU32(view, off + 20)
+    const chars = readU32(view, off + 36)
     rawSections.push({ virtualAddress, virtualSize, rawOffset, rawSize })
 
     let secEntropy = 0
@@ -290,9 +290,9 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
     for (let i = 0; i < MAX_IMPORT_DLLS; i++) {
       const off = importOff + i * 20
       if (off > fileLen - 20) break
-      const iltRva  = readU32(view, off)
+      const iltRva = readU32(view, off)
       const nameRva = readU32(view, off + 12)
-      const iatRva  = readU32(view, off + 16)
+      const iatRva = readU32(view, off + 16)
       if (nameRva === 0 && iltRva === 0 && iatRva === 0) break
 
       const nameOff = rvaToOffset(nameRva, rawSections, fileLen)
@@ -347,12 +347,12 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
   const exportOff = rvaToOffset(exportDirRva, rawSections, fileLen)
 
   if (exportOff !== undefined && exportOff <= fileLen - 40) {
-    const ordinalBase  = readU32(view, exportOff + 16)
+    const ordinalBase = readU32(view, exportOff + 16)
     const numAddresses = Math.min(readU32(view, exportOff + 20), MAX_EXPORTS)
-    const numNames     = Math.min(readU32(view, exportOff + 24), MAX_EXPORTS)
-    const eatRva       = readU32(view, exportOff + 28)
-    const eptRva       = readU32(view, exportOff + 32)
-    const eotRva       = readU32(view, exportOff + 36)
+    const numNames = Math.min(readU32(view, exportOff + 24), MAX_EXPORTS)
+    const eatRva = readU32(view, exportOff + 28)
+    const eptRva = readU32(view, exportOff + 32)
+    const eotRva = readU32(view, exportOff + 36)
 
     const eatOff = rvaToOffset(eatRva, rawSections, fileLen)
     const eptOff = rvaToOffset(eptRva, rawSections, fileLen)
@@ -362,11 +362,11 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
       for (let i = 0; i < numNames; i++) {
         if (eptOff + i * 4 > fileLen - 4 || eotOff + i * 2 > fileLen - 2) break
         const nameRva = readU32(view, eptOff + i * 4)
-        const ordIdx  = readU16(view, eotOff + i * 2)
+        const ordIdx = readU16(view, eotOff + i * 2)
         if (ordIdx >= numAddresses || eatOff + ordIdx * 4 > fileLen - 4) continue
         const funcRvaV = readU32(view, eatOff + ordIdx * 4)
-        const nOff     = rvaToOffset(nameRva, rawSections, fileLen)
-        const name     = nOff !== undefined ? readAscii(view, nOff, 256) : undefined
+        const nOff = rvaToOffset(nameRva, rawSections, fileLen)
+        const name = nOff !== undefined ? readAscii(view, nOff, 256) : undefined
         exports.push({ name: name || undefined, ordinal: ordinalBase + ordIdx, rva: hex(funcRvaV) })
       }
     }
@@ -451,9 +451,9 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
   }
 
   // ── String Extraction & Embedded Manifest Detection ──────────────────────
-  const asciiStrings   = extractAsciiStrings(bytes)
+  const asciiStrings = extractAsciiStrings(bytes)
   const unicodeStrings = extractUnicodeStrings(bytes)
-  const indicators     = extractIndicators(asciiStrings, unicodeStrings)
+  const indicators = extractIndicators(asciiStrings, unicodeStrings)
 
   let embeddedManifest: { executionLevel?: string } | undefined
   const combinedStrings = [...asciiStrings, ...unicodeStrings]
@@ -467,7 +467,7 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
 
   // ── Hashes ────────────────────────────────────────────────────────────────
   const [hashSha256, hashSha1] = await Promise.all([sha256(buffer), sha1(buffer)])
-  const hashMd5     = md5(buffer)
+  const hashMd5 = md5(buffer)
   const hashImpHash = impHash(importedFunctions)
 
   let isoTimestamp = '1970-01-01T00:00:00.000Z'
@@ -478,7 +478,10 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
     // Fallback to epoch
   }
 
-  const electronFilePath = (file as File & { path?: string }).path
+  const electronFilePath =
+    (typeof window !== 'undefined' && window.sentinelGuard?.getFilePath
+      ? window.sentinelGuard.getFilePath(file)
+      : '') || (file as File & { path?: string }).path
   const partial: PartialAnalysis = {
     fileName: file.name,
     filePath: electronFilePath || undefined,
@@ -489,10 +492,10 @@ export async function analyzePortableExecutable(file: File): Promise<PeAnalysis>
     impHash: hashImpHash,
     architecture:
       machine === 0x8664 ? 'x64 (AMD64)' :
-      machine === 0x14c  ? 'x86 (I386)' :
-      machine === 0x1c4  ? 'ARM (Thumb-2)' :
-      machine === 0xaa64 ? 'ARM64' :
-      `Machine ${hex(machine)}`,
+        machine === 0x14c ? 'x86 (I386)' :
+          machine === 0x1c4 ? 'ARM (Thumb-2)' :
+            machine === 0xaa64 ? 'ARM64' :
+              `Machine ${hex(machine)}`,
     subsystem: subsystemName(subsystem),
     timestamp: isoTimestamp,
     entryPoint: hex(entryPoint),

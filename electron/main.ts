@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, Notification, shell } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, Notification, safeStorage, screen, shell } from 'electron'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -61,6 +61,18 @@ interface SuspiciousProcess {
   reason: string
 }
 
+interface ScanProgress {
+  running: boolean
+  mode: 'quick' | 'custom' | 'idle'
+  scanned: number
+  total: number
+  threats: number
+  currentFile: string
+  startedAt?: string
+  completedAt?: string
+  aborted?: boolean
+}
+
 interface GuardStatus {
   enabled: boolean
   autoQuarantine: boolean
@@ -73,10 +85,12 @@ interface GuardStatus {
   lastScanAt?: string
   alerts: GuardAlert[]
   quarantine: QuarantineItem[]
+  scanProgress?: ScanProgress
 }
 
 // ── State (Opt-In Active Monitoring & Manual Quarantine by default) ───────────
 let mainWindow: BrowserWindow | null = null
+let scanAbortRequested = false
 const activeWatchers: fs.FSWatcher[] = []
 const canaryWatchers: fs.FSWatcher[] = []
 const debounceTimers = new Map<string, NodeJS.Timeout>()
@@ -95,6 +109,14 @@ const state: GuardStatus = {
   threatsBlockedCount: 0,
   alerts: [],
   quarantine: [],
+  scanProgress: {
+    running: false,
+    mode: 'idle',
+    scanned: 0,
+    total: 0,
+    threats: 0,
+    currentFile: '',
+  },
 }
 
 // ── Trusted IPC Sender Verification ───────────────────────────────────────────
@@ -144,8 +166,27 @@ function getOrCreateVaultKey(): Buffer {
   if (fs.existsSync(keyPath)) {
     const raw = fs.readFileSync(keyPath)
     if (raw.length === 32) return raw
+    try {
+      if (safeStorage.isEncryptionAvailable()) {
+        const hexKey = safeStorage.decryptString(raw)
+        if (/^[0-9a-f]{64}$/i.test(hexKey)) {
+          return Buffer.from(hexKey, 'hex')
+        }
+      }
+    } catch {
+      // Fall through to regenerate if corrupted
+    }
   }
   const newKey = crypto.randomBytes(32)
+  try {
+    if (safeStorage.isEncryptionAvailable()) {
+      const dpapiBlob = safeStorage.encryptString(newKey.toString('hex'))
+      fs.writeFileSync(keyPath, dpapiBlob, { mode: 0o600 })
+      return newKey
+    }
+  } catch {
+    // Fallback if DPAPI unavailable in headless environment
+  }
   fs.writeFileSync(keyPath, newKey, { mode: 0o600 })
   return newKey
 }
@@ -277,7 +318,8 @@ function inspectFileSync(filePath: string): {
     state.filesScannedCount += 1
     state.lastScanAt = new Date().toISOString()
 
-    const fullHash = crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex')
+    const hashSource = lstat.size === readSize ? buf : fs.readFileSync(filePath)
+    const fullHash = crypto.createHash('sha256').update(hashSource).digest('hex')
     const text = extractPrintableText(buf)
     const reasons: string[] = []
     let score = 0
@@ -797,6 +839,129 @@ function registerIpcHandlers() {
     return state
   })
 
+  const runAsyncFolderScan = async (
+    rootDirs: string[],
+    mode: 'quick' | 'custom',
+  ): Promise<{ scanned: number; threats: number; aborted?: boolean }> => {
+    if (state.scanProgress?.running) {
+      return { scanned: state.scanProgress.scanned, threats: state.scanProgress.threats }
+    }
+
+    scanAbortRequested = false
+    const candidates: string[] = []
+
+    const collectFiles = (dir: string, depth = 0) => {
+      if (depth > 3 || scanAbortRequested) return
+      let entries: fs.Dirent[] = []
+      try {
+        entries = fs.readdirSync(dir, { withFileTypes: true })
+      } catch {
+        return
+      }
+
+      for (const entry of entries) {
+        if (entry.isSymbolicLink()) continue
+        const fullPath = path.join(dir, entry.name)
+        if (entry.isDirectory()) {
+          if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'release') continue
+          collectFiles(fullPath, depth + 1)
+        } else if (entry.isFile()) {
+          const ext = path.extname(entry.name).toLowerCase()
+          if (MONITORED_EXTENSIONS.has(ext)) {
+            candidates.push(fullPath)
+          }
+        }
+      }
+    }
+
+    for (const d of rootDirs) {
+      if (fs.existsSync(d)) collectFiles(d)
+    }
+
+    state.scanProgress = {
+      running: true,
+      mode,
+      scanned: 0,
+      total: candidates.length,
+      threats: 0,
+      currentFile: candidates[0] ?? (rootDirs[0] || ''),
+      startedAt: new Date().toISOString(),
+      aborted: false,
+    }
+    broadcastStatus()
+
+    let scanned = 0
+    let threats = 0
+
+    for (const fullPath of candidates) {
+      if (scanAbortRequested) {
+        state.scanProgress = {
+          ...state.scanProgress,
+          running: false,
+          aborted: true,
+          completedAt: new Date().toISOString(),
+        }
+        saveQuarantineManifest()
+        broadcastStatus()
+        return { scanned, threats, aborted: true }
+      }
+
+      scanned++
+      state.scanProgress.scanned = scanned
+      state.scanProgress.currentFile = fullPath
+      if (scanned % 2 === 1 || scanned === candidates.length) {
+        broadcastStatus()
+      }
+
+      // Yield to event loop so UI updates and Stop Scan IPC is handled immediately
+      await new Promise<void>(resolve => setTimeout(resolve, 12))
+
+      const check = inspectFileSync(fullPath)
+      if (check && check.isThreat) {
+        threats++
+        state.scanProgress.threats = threats
+        const alert: GuardAlert = {
+          id: crypto.randomUUID(),
+          timestamp: new Date().toISOString(),
+          severity: check.severity,
+          category: check.category,
+          title: `Arquivo Suspeito na Varredura (${check.category.toUpperCase()})`,
+          filePath: path.resolve(fullPath),
+          fileName: path.basename(fullPath),
+          sha256: check.sha256,
+          riskScore: check.riskScore,
+          actionTaken: 'alerted',
+          details: check.reasons,
+        }
+        state.alerts.unshift(alert)
+      }
+    }
+
+    state.scanProgress = {
+      ...state.scanProgress,
+      running: false,
+      scanned,
+      threats,
+      currentFile: '',
+      completedAt: new Date().toISOString(),
+    }
+    saveQuarantineManifest()
+    broadcastStatus()
+    return { scanned, threats, aborted: false }
+  }
+
+  ipcMain.handle('guard:stop-scan', (event) => {
+    assertTrustedSender(event)
+    scanAbortRequested = true
+    return { ok: true }
+  })
+
+  ipcMain.handle('guard:quick-scan', async (event) => {
+    assertTrustedSender(event)
+    const dirs = [...new Set([app.getPath('downloads'), app.getPath('desktop'), os.tmpdir()])]
+    return await runAsyncFolderScan(dirs, 'quick')
+  })
+
   ipcMain.handle('guard:scan-directory', async (event) => {
     assertTrustedSender(event)
     if (!mainWindow) return { scanned: 0, threats: 0 }
@@ -806,51 +971,7 @@ function registerIpcHandlers() {
     })
     if (result.canceled || !result.filePaths[0]) return { scanned: 0, threats: 0 }
 
-    const rootDir = result.filePaths[0]
-    let scanned = 0
-    let threats = 0
-
-    const walk = (dir: string, depth = 0) => {
-      if (depth > 3) return
-      let entries: fs.Dirent[] = []
-      try { entries = fs.readdirSync(dir, { withFileTypes: true }) } catch { return }
-
-      for (const entry of entries) {
-        if (entry.isSymbolicLink()) continue
-        const fullPath = path.join(dir, entry.name)
-        if (entry.isDirectory()) {
-          if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'release') continue
-          walk(fullPath, depth + 1)
-        } else if (entry.isFile()) {
-          const ext = path.extname(entry.name).toLowerCase()
-          if (!MONITORED_EXTENSIONS.has(ext)) continue
-          scanned++
-          const check = inspectFileSync(fullPath)
-          if (check && check.isThreat) {
-            threats++
-            const alert: GuardAlert = {
-              id: crypto.randomUUID(),
-              timestamp: new Date().toISOString(),
-              severity: check.severity,
-              category: check.category,
-              title: `Arquivo Suspeito na Varredura (${check.category.toUpperCase()})`,
-              filePath: path.resolve(fullPath),
-              fileName: entry.name,
-              sha256: check.sha256,
-              riskScore: check.riskScore,
-              actionTaken: 'alerted',
-              details: check.reasons,
-            }
-            state.alerts.unshift(alert)
-          }
-        }
-      }
-    }
-
-    walk(rootDir)
-    saveQuarantineManifest()
-    broadcastStatus()
-    return { scanned, threats }
+    return await runAsyncFolderScan([result.filePaths[0]], 'custom')
   })
 
   ipcMain.handle('guard:quarantine-file', async (event, filePath: string, reason?: string) => {
@@ -1177,11 +1298,16 @@ const ALLOWED_EXTERNAL_HOSTS = new Set([
 ])
 
 const createWindow = () => {
+  const workArea = screen.getPrimaryDisplay().workAreaSize
+  const initialWidth = Math.min(1360, Math.max(960, Math.round(workArea.width * 0.88)))
+  const initialHeight = Math.min(860, Math.max(620, Math.round(workArea.height * 0.88)))
+
   mainWindow = new BrowserWindow({
-    width: 1400,
-    minWidth: 1020,
-    height: 900,
-    minHeight: 700,
+    width: initialWidth,
+    minWidth: 860,
+    height: initialHeight,
+    minHeight: 560,
+    center: true,
     autoHideMenuBar: true,
     backgroundColor: '#0d1117',
     title: 'Sentinel PE — Endpoint Protection & Binary Triage',

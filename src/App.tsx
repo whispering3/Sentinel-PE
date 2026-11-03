@@ -111,6 +111,18 @@ const IconExternal = ({ size = 12 }: { size?: number }) => (
   </svg>
 )
 
+const IconPlay = ({ size = 13 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <polygon points="5 3 19 12 5 21 5 3" />
+  </svg>
+)
+
+const IconStop = ({ size = 13 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <rect x="4" y="4" width="16" height="16" rx="2" />
+  </svg>
+)
+
 // ── Formatters ─────────────────────────────────────────────────────────────────
 const fmtBytes = (n: number) =>
   n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` :
@@ -676,7 +688,9 @@ function ActiveGuardDashboard({
   guard,
   lang,
   onToggleConfig,
+  onQuickScan,
   onScanFolder,
+  onStopScan,
   onSelectFile,
   onClearAlerts,
   onOpenQuarantine,
@@ -685,7 +699,9 @@ function ActiveGuardDashboard({
   guard: GuardStatus
   lang: Language
   onToggleConfig: (cfg: { enabled?: boolean; autoQuarantine?: boolean; canaryEnabled?: boolean }) => void
+  onQuickScan: () => void
   onScanFolder: () => void
+  onStopScan: () => void
   onSelectFile: () => void
   onClearAlerts: () => void
   onOpenQuarantine: () => void
@@ -719,9 +735,13 @@ function ActiveGuardDashboard({
   const bannerStateClass = isAlertState ? 'state-alert' : guard.enabled ? 'state-active' : 'state-idle'
   const emblemClass      = isAlertState ? 'alert' : guard.enabled ? 'active' : 'idle'
 
+  const sp = guard.scanProgress
+  const isScanning = Boolean(sp?.running)
+  const scanPercent = sp && sp.total > 0 ? Math.min(100, Math.round((sp.scanned / sp.total) * 100)) : 0
+
   return (
     <div>
-      {/* Enterprise Security Status Banner */}
+      {/* Enterprise Security Status Banner with Start / Stop Protection */}
       <section className={`security-status-banner ${bannerStateClass}`}>
         <div className="status-banner-main">
           <div className={`status-emblem ${emblemClass}`}>
@@ -743,12 +763,31 @@ function ActiveGuardDashboard({
                   : t.guardBannerIdleDesc}
             </p>
             <div className="actions">
-              <button className="btn-primary" onClick={onSelectFile}>
-                <IconUpload size={14} /> {t.btnSelectFile}
-              </button>
-              <button className="btn-secondary" onClick={onScanFolder}>
-                <IconFolder size={14} /> {t.btnScanFolder}
-              </button>
+              {guard.enabled ? (
+                <button
+                  className="btn-stop"
+                  onClick={() => onToggleConfig({ enabled: false, canaryEnabled: false })}
+                >
+                  <IconStop size={12} /> {t.btnStopShield}
+                </button>
+              ) : (
+                <button
+                  className="btn-primary"
+                  onClick={() => onToggleConfig({ enabled: true, canaryEnabled: true })}
+                >
+                  <IconPlay size={12} /> {t.btnStartShield}
+                </button>
+              )}
+
+              {isScanning ? (
+                <button className="btn-stop" onClick={onStopScan}>
+                  <IconStop size={12} /> {t.btnStopScan}
+                </button>
+              ) : (
+                <button className="btn-secondary" onClick={onQuickScan}>
+                  <IconPlay size={12} /> {t.btnStartQuickScan}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -785,6 +824,121 @@ function ActiveGuardDashboard({
           </div>
         </div>
       </section>
+
+      {/* Live Scan Progress Bar (when running or recently finished) */}
+      {sp && (sp.running || sp.completedAt) && (
+        <section
+          className={`scan-progress-panel ${
+            sp.running ? '' : sp.aborted ? 'aborted' : 'done'
+          }`}
+        >
+          <div className="scan-progress-header">
+            <div className="scan-progress-title">
+              {sp.running ? (
+                <div className="spinner" style={{ width: 16, height: 16, margin: 0, borderWidth: 2 }} />
+              ) : sp.aborted ? (
+                <IconX size={16} />
+              ) : (
+                <IconCheck size={16} />
+              )}
+              <span>
+                {sp.running
+                  ? t.scanRunningTitle
+                  : sp.aborted
+                    ? t.scanAbortedTitle
+                    : t.scanCompletedTitle}
+              </span>
+              <span className="panel-count">
+                {sp.scanned} / {sp.total} ({scanPercent}%)
+              </span>
+              {sp.threats > 0 && (
+                <span className="sidebar-badge danger">{sp.threats} ameaça(s)</span>
+              )}
+            </div>
+
+            {sp.running && (
+              <button className="btn-stop" onClick={onStopScan}>
+                <IconStop size={12} /> {t.btnStopScan}
+              </button>
+            )}
+          </div>
+
+          <div className="scan-bar-outer">
+            <div className="scan-bar-inner" style={{ width: `${scanPercent}%` }} />
+          </div>
+
+          <div className="scan-progress-meta">
+            <span className="scan-current-file">
+              {sp.running && sp.currentFile
+                ? `${t.scanCurrentFileLabel} ${sp.currentFile}`
+                : sp.completedAt
+                  ? `${new Date(sp.completedAt).toLocaleTimeString()}`
+                  : ''}
+            </span>
+            <span className="mono">{scanPercent}%</span>
+          </div>
+        </section>
+      )}
+
+      {/* 3-Card Antivirus Scan Center (Quick Scan / Custom Folder Scan / Binary Analysis) */}
+      <div className="scan-cards-grid">
+        <article className="scan-action-card">
+          <div className="scan-card-top">
+            <div className="scan-card-icon">
+              <IconActivity size={18} />
+            </div>
+            <div>
+              <h4>{t.scanQuickTitle}</h4>
+              <p>{t.scanQuickDesc}</p>
+            </div>
+          </div>
+          {isScanning && sp?.mode === 'quick' ? (
+            <button className="btn-stop" onClick={onStopScan}>
+              <IconStop size={12} /> {t.btnStopScan}
+            </button>
+          ) : (
+            <button className="btn-primary" onClick={onQuickScan} disabled={isScanning}>
+              <IconPlay size={12} /> {t.btnStartQuickScan}
+            </button>
+          )}
+        </article>
+
+        <article className="scan-action-card">
+          <div className="scan-card-top">
+            <div className="scan-card-icon blue">
+              <IconFolder size={18} />
+            </div>
+            <div>
+              <h4>{t.scanCustomTitle}</h4>
+              <p>{t.scanCustomDesc}</p>
+            </div>
+          </div>
+          {isScanning && sp?.mode === 'custom' ? (
+            <button className="btn-stop" onClick={onStopScan}>
+              <IconStop size={12} /> {t.btnStopScan}
+            </button>
+          ) : (
+            <button className="btn-secondary" onClick={onScanFolder} disabled={isScanning}>
+              <IconFolder size={14} /> {t.btnStartCustomScan}
+            </button>
+          )}
+        </article>
+
+        <article className="scan-action-card">
+          <div className="scan-card-top">
+            <div className="scan-card-icon purple">
+              <IconScanner size={18} />
+            </div>
+            <div>
+              <h4>{t.scanBinaryTitle}</h4>
+              <p>{t.scanBinaryDesc}</p>
+            </div>
+          </div>
+          <button className="btn-secondary" onClick={onSelectFile}>
+            <IconUpload size={14} /> {t.btnSelectFile}
+          </button>
+        </article>
+      </div>
 
       {/* Telemetry Counters */}
       <div className="summary-subgrid">
@@ -1093,18 +1247,49 @@ export default function App() {
     }
   }
 
+  const handleQuickScan = async () => {
+    setActiveTab('guard')
+    if (!window.sentinelGuard?.startQuickScan) {
+      inputRef.current?.click()
+      return
+    }
+    const res = await window.sentinelGuard.startQuickScan()
+    setNoticeMsg(
+      res.aborted
+        ? lang === 'pt'
+          ? `Varredura interrompida pelo usuário (${res.scanned} verificados, ${res.threats} ameaça(s)).`
+          : `Scan stopped by user (${res.scanned} checked, ${res.threats} threat(s)).`
+        : lang === 'pt'
+          ? `Varredura Rápida concluída: ${res.scanned} executáveis verificados, ${res.threats} ameaça(s) detectada(s).`
+          : `Quick Scan complete: ${res.scanned} binaries checked, ${res.threats} threat(s) detected.`,
+    )
+    setTimeout(() => setNoticeMsg(undefined), 5000)
+  }
+
+  const handleStopScan = async () => {
+    if (!window.sentinelGuard?.stopScan) return
+    await window.sentinelGuard.stopScan()
+  }
+
   const handleScanFolder = async () => {
+    setActiveTab('guard')
     if (!window.sentinelGuard) {
       inputRef.current?.click()
       return
     }
     const res = await window.sentinelGuard.scanDirectory()
-    setNoticeMsg(
-      lang === 'pt'
-        ? `Varredura concluída: ${res.scanned} executáveis verificados, ${res.threats} ameaça(s) detectada(s).`
-        : `Folder scan complete: ${res.scanned} binaries checked, ${res.threats} threat(s) detected.`
-    )
-    setTimeout(() => setNoticeMsg(undefined), 5000)
+    if (res.scanned > 0 || res.aborted) {
+      setNoticeMsg(
+        res.aborted
+          ? lang === 'pt'
+            ? `Varredura interrompida pelo usuário (${res.scanned} verificados, ${res.threats} ameaça(s)).`
+            : `Scan stopped by user (${res.scanned} checked, ${res.threats} threat(s)).`
+          : lang === 'pt'
+            ? `Varredura concluída: ${res.scanned} executáveis verificados, ${res.threats} ameaça(s) detectada(s).`
+            : `Folder scan complete: ${res.scanned} binaries checked, ${res.threats} threat(s) detected.`,
+      )
+      setTimeout(() => setNoticeMsg(undefined), 5000)
+    }
   }
 
   const handleQuarantineByPath = async (filePath: string, reason: string) => {
@@ -1338,7 +1523,9 @@ export default function App() {
               guard={guard}
               lang={lang}
               onToggleConfig={cfg => void handleToggleGuardConfig(cfg)}
+              onQuickScan={() => void handleQuickScan()}
               onScanFolder={() => void handleScanFolder()}
+              onStopScan={() => void handleStopScan()}
               onSelectFile={() => inputRef.current?.click()}
               onClearAlerts={() => void window.sentinelGuard?.clearAlerts().then(setGuard)}
               onOpenQuarantine={() => setActiveTab('quarantine')}
