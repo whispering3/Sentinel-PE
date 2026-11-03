@@ -1182,8 +1182,9 @@ const createWindow = () => {
     minWidth: 1020,
     height: 900,
     minHeight: 700,
-    backgroundColor: '#0a101c',
-    title: 'Sentinel PE — Explainable Detection & Triage Workbench',
+    autoHideMenuBar: true,
+    backgroundColor: '#0d1117',
+    title: 'Sentinel PE — Endpoint Protection & Binary Triage',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -1191,6 +1192,7 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
   })
+  mainWindow.setMenuBarVisibility(false)
 
   mainWindow.webContents.on('will-navigate', (event) => {
     event.preventDefault()

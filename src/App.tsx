@@ -25,6 +25,92 @@ import type {
   TelemetryEvent,
 } from './types'
 
+// ── Clean Vector SVG Icons (Zero Emojis) ──────────────────────────────────────
+const IconShield = ({ size = 18 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+)
+
+const IconShieldCheck = ({ size = 28 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="m9 12 2 2 4-4" />
+  </svg>
+)
+
+const IconShieldAlert = ({ size = 28 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+)
+
+const IconScanner = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="9" y1="13" x2="15" y2="13" />
+    <line x1="9" y1="17" x2="13" y2="17" />
+  </svg>
+)
+
+const IconVault = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+)
+
+const IconFolder = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+  </svg>
+)
+
+const IconUpload = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="17 8 12 3 7 8" />
+    <line x1="12" y1="3" x2="12" y2="15" />
+  </svg>
+)
+
+const IconActivity = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+  </svg>
+)
+
+const IconCheck = ({ size = 14 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+)
+
+const IconX = ({ size = 14 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#e3b341" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+)
+
+const IconCopy = ({ size = 13 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+)
+
+const IconExternal = ({ size = 12 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+)
+
 // ── Formatters ─────────────────────────────────────────────────────────────────
 const fmtBytes = (n: number) =>
   n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` :
@@ -46,18 +132,19 @@ const DEFAULT_GUARD_STATUS: GuardStatus = {
   quarantine: [],
 }
 
-// ── Shared UI Components ──────────────────────────────────────────────────────
+type ScannerSubTab = 'overview' | 'structure' | 'imports' | 'strings' | 'rules' | 'all'
 
+// ── Shared UI Components ──────────────────────────────────────────────────────
 function CopyBtn({ value }: { value: string }) {
   const [copied, setCopied] = useState(false)
   const handleCopy = () => {
     void copyToClipboard(value)
     setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+    setTimeout(() => setCopied(false), 1400)
   }
   return (
     <button className="copy-btn" onClick={handleCopy} title="Copy">
-      {copied ? '✓' : '⧉'}
+      {copied ? <IconCheck size={13} /> : <IconCopy size={13} />}
     </button>
   )
 }
@@ -76,107 +163,108 @@ function Metric({ label, value, mono = false, highlight }: {
   )
 }
 
-function RiskGauge({
-  score,
-  confidence,
-  decision,
-  rationale,
+function AssessmentStrip({
+  analysis,
   lang,
 }: {
-  score: number
-  confidence: number
-  decision: ResponseDecision
-  rationale: string
+  analysis: PeAnalysis
   lang: Language
 }) {
   const t = translations[lang]
-  const color = score >= 80 ? '#ff4d6d' : score >= 50 ? '#ff9f43' : score >= 20 ? '#ffd700' : '#55e6a5'
-  const label = score >= 80 ? t.riskCritical : score >= 50 ? t.riskHigh : score >= 20 ? t.riskMedium : t.riskLow
-  const dash  = 220 - (score / 100) * 220
-  const decColor = decision === 'block' ? '#ff4d6d' : decision === 'alert' ? '#ff9f43' : '#55e6a5'
+  const { riskScore, confidenceScore, recommendedDecision, decisionRationale, findings } = analysis
+  const scoreColor =
+    riskScore >= 80 ? '#f85149' :
+    riskScore >= 50 ? '#ffa657' :
+    riskScore >= 20 ? '#e3b341' :
+    '#10b981'
+  const scoreLabel =
+    riskScore >= 80 ? t.riskCritical :
+    riskScore >= 50 ? t.riskHigh :
+    riskScore >= 20 ? t.riskMedium :
+    t.riskLow
 
-  return (
-    <article className="risk-gauge panel">
-      <p className="panel-label">{t.riskScoreLabel}</p>
-      <div className="gauge-wrap">
-        <svg viewBox="0 0 100 55" className="gauge-svg">
-          <path d="M10 50 A40 40 0 0 1 90 50" fill="none" stroke="#1a2d42" strokeWidth="8" strokeLinecap="round" />
-          <path d="M10 50 A40 40 0 0 1 90 50" fill="none"
-            stroke={color} strokeWidth="8" strokeLinecap="round"
-            strokeDasharray="220" strokeDashoffset={`${dash}`}
-            style={{ transition: 'stroke-dashoffset 0.8s ease, stroke 0.4s ease' }} />
-          <text x="50" y="52" textAnchor="middle" fill={color} fontSize="18" fontWeight="800">{score}</text>
-        </svg>
-        <span className="gauge-label" style={{ color }}>{label}</span>
-        <div className="confidence-pill">
-          <span>{t.confidenceLabel}:</span>
-          <strong>{confidence}%</strong>
-        </div>
-        <div className="decision-badge" style={{ borderColor: decColor, color: decColor }} title={rationale}>
-          {decisionLabels[lang][decision]}
-        </div>
-      </div>
-    </article>
-  )
-}
+  const decColor =
+    recommendedDecision === 'block' ? '#ff7b72' :
+    recommendedDecision === 'alert' ? '#ffa657' :
+    '#34d399'
 
-function ThreatOverviewCards({ findings, lang }: { findings: Finding[]; lang: Language }) {
-  const t = translations[lang]
   const ransomwareHits = findings.filter(f => f.category === 'ransomware')
   const stealerHits    = findings.filter(f => f.category === 'infostealer')
   const injectionHits  = findings.filter(f => f.category === 'injection' || f.category === 'packer' || f.category === 'evasion')
 
-  const cards = [
-    {
-      title: t.cardRansomware,
-      icon: '🔒',
-      hits: ransomwareHits,
-    },
-    {
-      title: t.cardInfostealer,
-      icon: '🍪',
-      hits: stealerHits,
-    },
-    {
-      title: t.cardInjection,
-      icon: '💉',
-      hits: injectionHits,
-    },
+  const matrixItems = [
+    { label: t.cardRansomware, hits: ransomwareHits },
+    { label: t.cardInfostealer, hits: stealerHits },
+    { label: t.cardInjection, hits: injectionHits },
   ]
 
   return (
-    <div className="threat-cards-grid">
-      {cards.map(({ title, icon, hits }) => {
-        const hasCrit = hits.some(h => h.severity === 'critical' || h.severity === 'high')
-        const hasAny  = hits.length > 0
-        const cls     = hasCrit ? 'threat-card danger' : hasAny ? 'threat-card warn' : 'threat-card ok'
-        return (
-          <article key={title} className={cls}>
-            <div className="threat-card-head">
-              <span className="threat-icon">{icon}</span>
-              <div>
-                <h4>{title}</h4>
-                <strong>{hasAny ? `${hits.length} — ${t.statusDetected}` : `✅ ${t.statusClean}`}</strong>
-              </div>
+    <div className="assessment-strip">
+      {/* Column 1: Score & Confidence */}
+      <article className="score-box">
+        <div>
+          <p className="panel-label">{t.riskScoreLabel}</p>
+          <div className="score-readout">
+            <span className="score-number" style={{ color: scoreColor }}>{riskScore}<small style={{ fontSize: 13, color: '#7d8590' }}>/100</small></span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: scoreColor }}>{scoreLabel}</span>
+          </div>
+          <div className="score-bar-track">
+            <div className="score-bar-fill" style={{ width: `${riskScore}%`, background: scoreColor }} />
+          </div>
+        </div>
+        <div className="confidence-row">
+          <span>{t.confidenceLabel}</span>
+          <strong className="mono" style={{ color: '#e6edf3' }}>{confidenceScore}%</strong>
+        </div>
+      </article>
+
+      {/* Column 2: Operational Decision & Rationale */}
+      <article className="decision-box">
+        <div>
+          <p className="panel-label">{t.decisionLabel}</p>
+          <div style={{ marginBottom: 8 }}>
+            <span className="decision-pill" style={{ color: decColor, borderColor: decColor }}>
+              {decisionLabels[lang][recommendedDecision]}
+            </span>
+          </div>
+          <p style={{ margin: 0, fontSize: 12, color: '#8b949e', lineHeight: 1.45 }}>
+            {decisionRationale}
+          </p>
+        </div>
+      </article>
+
+      {/* Column 3: Threat Domain Matrix */}
+      <article className="threat-matrix-box">
+        {matrixItems.map(({ label, hits }) => {
+          const hasCrit = hits.some(h => h.severity === 'critical' || h.severity === 'high')
+          const hasAny = hits.length > 0
+          return (
+            <div
+              key={label}
+              className={`matrix-row ${hasCrit ? 'hit-danger' : hasAny ? 'hit-warn' : ''}`}
+            >
+              <span style={{ color: '#c9d1d9', fontWeight: 500 }}>{label}</span>
+              <strong
+                className="mono"
+                style={{
+                  fontSize: 11,
+                  color: hasCrit ? '#ff7b72' : hasAny ? '#e3b341' : '#34d399',
+                }}
+              >
+                {hasAny ? `${hits.length} ${t.statusDetected}` : t.statusClean}
+              </strong>
             </div>
-            {hasAny && (
-              <ul className="threat-card-list">
-                {hits.slice(0, 3).map((h, i) => (
-                  <li key={i}>{translateRuleTitle(h.title, lang)}</li>
-                ))}
-              </ul>
-            )}
-          </article>
-        )
-      })}
+          )
+        })}
+      </article>
     </div>
   )
 }
 
 const SEVERITIES: Severity[] = ['critical', 'high', 'medium', 'low', 'informational']
 const SEV_COLOR: Record<Severity, string> = {
-  critical: '#ff4d6d', high: '#ff9f43', medium: '#ffd700',
-  low: '#7ad4f0', informational: '#a9b8ca',
+  critical: '#ff7b72', high: '#ffa657', medium: '#e3b341',
+  low: '#56d4dd', informational: '#79c0ff',
 }
 
 function FindingsPanel({ findings, lang }: { findings: Finding[]; lang: Language }) {
@@ -199,11 +287,10 @@ function FindingsPanel({ findings, lang }: { findings: Finding[]; lang: Language
   return (
     <article className="panel">
       <div className="panel-title">
-        <h3>{t.findingsTitle}</h3>
-        <span>{findings.length}</span>
+        <h3><IconActivity size={15} /> {t.findingsTitle}</h3>
+        <span className="panel-count">{findings.length}</span>
       </div>
 
-      {/* Severity + Category filters */}
       <div className="sev-filter">
         <button className={`sev-btn ${activeSev === 'all' ? 'active' : ''}`} onClick={() => setActiveSev('all')}>
           {t.filterAll} <em>{findings.length}</em>
@@ -253,31 +340,31 @@ function FindingsPanel({ findings, lang }: { findings: Finding[]; lang: Language
 function RuleTestLabPanel({ analysis, lang }: { analysis: PeAnalysis; lang: Language }) {
   const t = translations[lang]
   const validation = validateDetectionRules(analysis)
-  const [showPreview, setShowPreview] = useState<'none' | 'yara' | 'sigma'>('none')
+  const [showPreview, setShowPreview] = useState<'yara' | 'sigma'>('yara')
   const fullYara = yaraRule(analysis) + yaraRuleBehavioral(analysis)
   const fullSigma = sigmaRule(analysis)
 
   return (
     <article className="panel">
       <div className="panel-title">
-        <h3>🧪 {t.ruleLabTitle}</h3>
+        <h3>{t.ruleLabTitle}</h3>
         <div className="actions">
           <button
             className={`ghost-sm ${showPreview === 'yara' ? 'active' : ''}`}
-            onClick={() => setShowPreview(showPreview === 'yara' ? 'none' : 'yara')}
+            onClick={() => setShowPreview('yara')}
           >
-            {showPreview === 'yara' ? '▾ YARA' : '▸ YARA'}
+            YARA
           </button>
           <button
             className={`ghost-sm ${showPreview === 'sigma' ? 'active' : ''}`}
-            onClick={() => setShowPreview(showPreview === 'sigma' ? 'none' : 'sigma')}
+            onClick={() => setShowPreview('sigma')}
           >
-            {showPreview === 'sigma' ? '▾ Sigma' : '▸ Sigma'}
+            Sigma YAML
           </button>
         </div>
       </div>
 
-      <div className="two-column" style={{ marginBottom: showPreview !== 'none' ? 12 : 0 }}>
+      <div className="two-column" style={{ marginBottom: 12 }}>
         <div className={`metric ${validation.yaraValid && validation.matchesCurrentSample ? 'metric-ok' : 'metric-danger'}`}>
           <p>YARA ({validation.matchedStringsCount} matched strings)</p>
           <strong>{validation.yaraValid && validation.matchesCurrentSample ? t.ruleLabYaraOk : validation.warnings.join(', ')}</strong>
@@ -288,12 +375,9 @@ function RuleTestLabPanel({ analysis, lang }: { analysis: PeAnalysis; lang: Lang
         </div>
       </div>
 
-      {showPreview === 'yara' && (
-        <pre className="rule-preview"><code>{fullYara}</code></pre>
-      )}
-      {showPreview === 'sigma' && (
-        <pre className="rule-preview"><code>{fullSigma}</code></pre>
-      )}
+      <pre className="rule-preview">
+        <code>{showPreview === 'yara' ? fullYara : fullSigma}</code>
+      </pre>
     </article>
   )
 }
@@ -314,19 +398,19 @@ function HashesPanel({ analysis, lang }: { analysis: PeAnalysis; lang: Language 
   const isMatch = normCompare.length > 0 && hashes.some(h => h.value.toLowerCase() === normCompare)
 
   return (
-    <article className="panel hashes-panel">
+    <article className="panel">
       <div className="panel-title">
         <h3>{t.hashesTitle}</h3>
         <div className="actions">
           <a className="ghost-sm"
             href={`https://www.virustotal.com/gui/file/${analysis.sha256}`}
             target="_blank" rel="noreferrer noopener">
-            🔎 VirusTotal
+            VirusTotal <IconExternal />
           </a>
           <a className="ghost-sm"
             href={`https://bazaar.abuse.ch/browse.php?search=sha256%3A${analysis.sha256}`}
             target="_blank" rel="noreferrer noopener">
-            🔎 MalwareBazaar
+            MalwareBazaar <IconExternal />
           </a>
         </div>
       </div>
@@ -364,7 +448,8 @@ function SectionsTable({ sections, lang }: { sections: PeAnalysis['sections']; l
   return (
     <article className="panel">
       <div className="panel-title">
-        <h3>{t.sectionsTitle}</h3><span>{sections.length}</span>
+        <h3>{t.sectionsTitle}</h3>
+        <span className="panel-count">{sections.length}</span>
       </div>
       <div className="table-wrap">
         <table>
@@ -379,9 +464,9 @@ function SectionsTable({ sections, lang }: { sections: PeAnalysis['sections']; l
               <tr key={i} className={s.entropy >= 7.5 ? 'row-danger' : s.entropy >= 7.2 ? 'row-warn' : ''}>
                 <td><code>{s.name || '—'}</code></td>
                 <td><code>{s.virtualAddress}</code></td>
-                <td>{s.virtualSize.toLocaleString()}</td>
-                <td>{s.rawSize.toLocaleString()}</td>
-                <td className={s.entropy >= 7.5 ? 'text-danger' : s.entropy >= 7.2 ? 'text-warn' : ''}>
+                <td className="mono">{s.virtualSize.toLocaleString()}</td>
+                <td className="mono">{s.rawSize.toLocaleString()}</td>
+                <td className={`mono ${s.entropy >= 7.5 ? 'text-danger' : s.entropy >= 7.2 ? 'text-warn' : ''}`}>
                   {s.entropy.toFixed(3)}
                 </td>
                 <td className="flags-cell">
@@ -408,13 +493,13 @@ function ImportsPanel({ functions, dlls, lang }: { functions: ImportedFunction[]
   ).slice(0, 500)
 
   return (
-    <article className="panel imports-panel">
+    <article className="panel">
       <div className="panel-title">
         <h3>{t.importsTitle}</h3>
         <div className="actions">
-          <span>{functions.length} {t.functionsCount} · {dlls.length} DLLs</span>
-          <button className={`ghost ${view === 'dlls' ? 'active' : ''}`} onClick={() => setView('dlls')}>{t.btnDlls}</button>
-          <button className={`ghost ${view === 'functions' ? 'active' : ''}`} onClick={() => setView('functions')}>{t.btnFunctions}</button>
+          <span className="panel-count">{functions.length} {t.functionsCount} · {dlls.length} DLLs</span>
+          <button className={`ghost-sm ${view === 'dlls' ? 'active' : ''}`} onClick={() => setView('dlls')}>{t.btnDlls}</button>
+          <button className={`ghost-sm ${view === 'functions' ? 'active' : ''}`} onClick={() => setView('functions')}>{t.btnFunctions}</button>
         </div>
       </div>
 
@@ -430,14 +515,14 @@ function ImportsPanel({ functions, dlls, lang }: { functions: ImportedFunction[]
                   <tr key={i}>
                     <td><code className="text-muted">{f.dll}</code></td>
                     <td><code>{f.name ?? '—'}</code></td>
-                    <td>{f.ordinal !== undefined ? f.ordinal : '—'}</td>
+                    <td className="mono">{f.ordinal !== undefined ? f.ordinal : '—'}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           {functions.length > 500 && (
-            <p className="muted" style={{ padding: '8px 0 0', fontSize: 12 }}>
+            <p className="muted" style={{ paddingTop: 8 }}>
               {t.showingTop} 500 {t.ofTotal} {functions.length}.
             </p>
           )}
@@ -446,8 +531,8 @@ function ImportsPanel({ functions, dlls, lang }: { functions: ImportedFunction[]
 
       {view === 'dlls' && (
         <ul className="list">
-          {dlls.map(dll => <li key={dll}>{dll}</li>)}
-          {!dlls.length && <li>{t.noImports}</li>}
+          {dlls.map(dll => <li key={dll} className="mono">{dll}</li>)}
+          {!dlls.length && <li className="muted">{t.noImports}</li>}
         </ul>
       )}
     </article>
@@ -459,21 +544,21 @@ function ExportsPanel({ exports, lang }: { exports: ExportedFunction[]; lang: La
   if (!exports.length) {
     return (
       <article className="panel">
-        <div className="panel-title"><h3>{t.exportsTitle}</h3><span>0</span></div>
+        <div className="panel-title"><h3>{t.exportsTitle}</h3><span className="panel-count">0</span></div>
         <p className="muted">{t.noExports}</p>
       </article>
     )
   }
   return (
     <article className="panel">
-      <div className="panel-title"><h3>{t.exportsTitle}</h3><span>{exports.length}</span></div>
+      <div className="panel-title"><h3>{t.exportsTitle}</h3><span className="panel-count">{exports.length}</span></div>
       <div className="table-wrap">
         <table>
           <thead><tr><th>Ordinal</th><th>API</th><th>RVA</th></tr></thead>
           <tbody>
             {exports.slice(0, 300).map((e, i) => (
               <tr key={i}>
-                <td><code>{e.ordinal}</code></td>
+                <td className="mono">{e.ordinal}</td>
                 <td><code>{e.name ?? '—'}</code></td>
                 <td><code>{e.rva}</code></td>
               </tr>
@@ -499,9 +584,9 @@ function StringsViewer({ ascii, unicode, lang }: { ascii: string[]; unicode: str
       <div className="panel-title">
         <h3>{t.stringsTitle}</h3>
         <div className="actions">
-          <span>{ascii.length} ASCII · {unicode.length} Unicode</span>
-          <button className={`ghost ${tab === 'ascii' ? 'active' : ''}`} onClick={() => setTab('ascii')}>ASCII</button>
-          <button className={`ghost ${tab === 'unicode' ? 'active' : ''}`} onClick={() => setTab('unicode')}>Unicode</button>
+          <span className="panel-count">{ascii.length} ASCII · {unicode.length} UTF-16</span>
+          <button className={`ghost-sm ${tab === 'ascii' ? 'active' : ''}`} onClick={() => setTab('ascii')}>ASCII</button>
+          <button className={`ghost-sm ${tab === 'unicode' ? 'active' : ''}`} onClick={() => setTab('unicode')}>Unicode</button>
         </div>
       </div>
       <input className="search-input" placeholder={t.searchStringsPlaceholder}
@@ -513,7 +598,7 @@ function StringsViewer({ ascii, unicode, lang }: { ascii: string[]; unicode: str
         }
       </div>
       {visible.length > 300 && (
-        <p className="muted" style={{ padding: '8px 0 0', fontSize: 12 }}>
+        <p className="muted" style={{ paddingTop: 8 }}>
           {t.showingTop} 300 {t.ofTotal} {visible.length}.
         </p>
       )}
@@ -529,7 +614,7 @@ function IndicatorsPanel({ indicators, lang }: { indicators: PeAnalysis['indicat
 
   return (
     <article className="panel">
-      <div className="panel-title"><h3>{t.indicatorsTitle}</h3><span>{total}</span></div>
+      <div className="panel-title"><h3>{t.indicatorsTitle}</h3><span className="panel-count">{total}</span></div>
       {indicators.ips.length > 0 && (
         <div className="indicator-group">
           <p className="indicator-label">IPs ({indicators.ips.length})</p>
@@ -562,13 +647,13 @@ function MitigationsPanel({ dllChars, isAuthenticodeSigned, hasTls, lang }:
   { dllChars: string[]; isAuthenticodeSigned: boolean; hasTls: boolean; lang: Language }) {
   const t = translations[lang]
   const checks = [
-    { label: 'Certificate Table Present (not validated)', ok: isAuthenticodeSigned },
-    { label: 'ASLR (DYNAMIC_BASE)', ok: dllChars.some(d => d.includes('DYNAMIC_BASE')) },
-    { label: 'DEP / NX (NX_COMPAT)', ok: dllChars.some(d => d.includes('NX_COMPAT')) },
-    { label: 'Control Flow Guard (CFG)', ok: dllChars.some(d => d.includes('GUARD_CF')) },
-    { label: 'High Entropy VA (64-bit ASLR)', ok: dllChars.some(d => d.includes('HIGH_ENTROPY_VA')) },
-    { label: 'No SEH', ok: dllChars.some(d => d.includes('NO_SEH')) },
-    { label: 'No TLS Callbacks', ok: !hasTls },
+    { label: 'WIN_CERTIFICATE Table Present (Unverified Chain)', ok: isAuthenticodeSigned },
+    { label: 'ASLR (IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE)', ok: dllChars.some(d => d.includes('DYNAMIC_BASE')) },
+    { label: 'DEP / NX (IMAGE_DLLCHARACTERISTICS_NX_COMPAT)', ok: dllChars.some(d => d.includes('NX_COMPAT')) },
+    { label: 'Control Flow Guard (GUARD_CF)', ok: dllChars.some(d => d.includes('GUARD_CF')) },
+    { label: 'High Entropy 64-bit VA (HIGH_ENTROPY_VA)', ok: dllChars.some(d => d.includes('HIGH_ENTROPY_VA')) },
+    { label: 'No Structured Exception Handling (NO_SEH)', ok: dllChars.some(d => d.includes('NO_SEH')) },
+    { label: 'No Pre-Entry TLS Callbacks', ok: !hasTls },
   ]
 
   return (
@@ -577,7 +662,8 @@ function MitigationsPanel({ dllChars, isAuthenticodeSigned, hasTls, lang }:
       <ul className="mitigations-list">
         {checks.map(({ label, ok }) => (
           <li key={label} className={ok ? 'mit-ok' : 'mit-missing'}>
-            <span>{ok ? '✅' : '❌'}</span> {label}
+            {ok ? <IconCheck /> : <IconX />}
+            <span>{label}</span>
           </li>
         ))}
       </ul>
@@ -585,7 +671,7 @@ function MitigationsPanel({ dllChars, isAuthenticodeSigned, hasTls, lang }:
   )
 }
 
-// ── Active Guard Dashboard Component ──────────────────────────────────────────
+// ── Active Guard Dashboard Component (Enterprise Endpoint Console) ────────────
 function ActiveGuardDashboard({
   guard,
   lang,
@@ -629,25 +715,82 @@ function ActiveGuardDashboard({
     await refreshProcesses()
   }
 
-  return (
-    <section className="results">
-      <div className="result-heading">
-        <div>
-          <p className="eyebrow">{t.eyebrow}</p>
-          <h2>🛡️ {t.guardTitle}</h2>
-          <p style={{ margin: '6px 0 0', color: '#8ba4bf', fontSize: 14 }}>{t.guardSubtitle}</p>
-        </div>
-        <div className="actions">
-          <button className="ghost" onClick={onScanFolder}>{t.btnScanFolder}</button>
-          <button className="primary" onClick={onSelectFile}>{t.btnSelectFile}</button>
-        </div>
-      </div>
+  const isAlertState = guard.canaryStatus === 'tampered'
+  const bannerStateClass = isAlertState ? 'state-alert' : guard.enabled ? 'state-active' : 'state-idle'
+  const emblemClass      = isAlertState ? 'alert' : guard.enabled ? 'active' : 'idle'
 
-      {/* Status Metrics */}
-      <div className="summary-subgrid" style={{ marginBottom: 14 }}>
+  return (
+    <div>
+      {/* Enterprise Security Status Banner */}
+      <section className={`security-status-banner ${bannerStateClass}`}>
+        <div className="status-banner-main">
+          <div className={`status-emblem ${emblemClass}`}>
+            {isAlertState ? <IconShieldAlert size={30} /> : <IconShieldCheck size={30} />}
+          </div>
+          <div className="status-banner-info">
+            <h2>
+              {isAlertState
+                ? t.guardBannerAlertTitle
+                : guard.enabled
+                  ? t.guardBannerActiveTitle
+                  : t.guardBannerIdleTitle}
+            </h2>
+            <p>
+              {isAlertState
+                ? t.guardBannerAlertDesc
+                : guard.enabled
+                  ? t.guardBannerActiveDesc
+                  : t.guardBannerIdleDesc}
+            </p>
+            <div className="actions">
+              <button className="btn-primary" onClick={onSelectFile}>
+                <IconUpload size={14} /> {t.btnSelectFile}
+              </button>
+              <button className="btn-secondary" onClick={onScanFolder}>
+                <IconFolder size={14} /> {t.btnScanFolder}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Protection Modules Switchboard */}
+        <div className="status-banner-controls">
+          <label className="module-toggle-row">
+            <span>{t.guardRealtimeToggle}</span>
+            <span className="toggle-switch">
+              <input
+                type="checkbox"
+                checked={guard.enabled}
+                onChange={e => onToggleConfig({ enabled: e.target.checked })}
+              />
+              <span className="toggle-slider" />
+            </span>
+          </label>
+
+          <label className="module-toggle-row">
+            <span>{t.guardCanaryToggle}</span>
+            <span className="toggle-switch">
+              <input
+                type="checkbox"
+                checked={guard.canaryEnabled}
+                onChange={e => onToggleConfig({ canaryEnabled: e.target.checked })}
+              />
+              <span className="toggle-slider" />
+            </span>
+          </label>
+
+          <div className="policy-note">
+            <IconVault size={13} />
+            <span>{t.guardAutoBlockToggle}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Telemetry Counters */}
+      <div className="summary-subgrid">
         <Metric
           label={t.metricShield}
-          value={guard.enabled ? `🟢 ${t.metricShieldOn}` : `⚪ ${t.metricShieldOff}`}
+          value={guard.enabled ? t.metricShieldOn : t.metricShieldOff}
           highlight={guard.enabled ? 'ok' : undefined}
         />
         <Metric
@@ -656,7 +799,7 @@ function ActiveGuardDashboard({
             guard.canaryStatus === 'tampered'
               ? t.metricCanaryTampered
               : guard.canaryStatus === 'intact'
-                ? `🟢 ${t.metricCanaryIntact}`
+                ? t.metricCanaryIntact
                 : t.metricCanaryOff
           }
           highlight={guard.canaryStatus === 'tampered' ? 'danger' : guard.canaryStatus === 'intact' ? 'ok' : undefined}
@@ -670,38 +813,15 @@ function ActiveGuardDashboard({
         />
       </div>
 
-      {/* Control switches (Opt-In) */}
-      <article className="panel guard-controls">
-        <label className="switch-row">
-          <input
-            type="checkbox"
-            checked={guard.enabled}
-            onChange={e => onToggleConfig({ enabled: e.target.checked })}
-          />
-          <span><strong>{t.guardRealtimeToggle}</strong></span>
-        </label>
-        <label className="switch-row">
-          <input
-            type="checkbox"
-            checked={guard.canaryEnabled}
-            onChange={e => onToggleConfig({ canaryEnabled: e.target.checked })}
-          />
-          <span><strong>{t.guardCanaryToggle}</strong></span>
-        </label>
-        <span style={{ fontSize: 12, color: '#55e6a5', marginLeft: 'auto' }}>
-          🔒 {t.guardAutoBlockToggle}
-        </span>
-      </article>
-
-      {/* Live Alerts Feed */}
+      {/* Security Alerts Log */}
       <article className="panel">
         <div className="panel-title">
-          <h3>🚨 {t.alertsTitle}</h3>
+          <h3>{t.alertsTitle}</h3>
           <div className="actions">
-            <span>{guard.alerts.length}</span>
+            <span className="panel-count">{guard.alerts.length}</span>
             {guard.quarantine.length > 0 && (
               <button className="ghost-sm" onClick={onOpenQuarantine}>
-                🔒 {t.navQuarantine} ({guard.quarantine.length})
+                {t.navQuarantine} ({guard.quarantine.length})
               </button>
             )}
             {guard.alerts.length > 0 && (
@@ -713,7 +833,7 @@ function ActiveGuardDashboard({
         {guard.alerts.length > 0 ? (
           <ul className="findings-list">
             {guard.alerts.map(a => (
-              <li key={a.id} className="alert-item">
+              <li key={a.id}>
                 <div className="finding-header">
                   <b className={`severity ${a.severity}`}>{severityLabels[lang][a.severity]}</b>
                   <span className={`finding-cat cat-${a.category}`}>{categoryLabels[lang][a.category]}</span>
@@ -727,12 +847,12 @@ function ActiveGuardDashboard({
                       {t.btnQuarantineCurrent}
                     </button>
                   )}
-                  <time style={{ fontSize: 12, color: '#758da5' }}>
+                  <time className="mono" style={{ fontSize: 11, color: '#7d8590' }}>
                     {new Date(a.timestamp).toLocaleTimeString()}
                   </time>
                 </div>
                 <small className="finding-evidence">
-                  <div><b>File:</b> {a.filePath} (Score: {a.riskScore}/100)</div>
+                  <div><b>Target:</b> {a.filePath} (Score: {a.riskScore}/100)</div>
                   {a.details.map((d, idx) => <div key={idx}>• {d}</div>)}
                 </small>
               </li>
@@ -743,12 +863,12 @@ function ActiveGuardDashboard({
         )}
       </article>
 
-      {/* Suspicious Process Monitor */}
+      {/* Live Suspicious Process Monitor */}
       <article className="panel">
         <div className="panel-title">
-          <h3>⚡ {t.processesTitle}</h3>
+          <h3>{t.processesTitle}</h3>
           <div className="actions">
-            <span>{processes.length}</span>
+            <span className="panel-count">{processes.length}</span>
             <button className="ghost-sm" onClick={() => void refreshProcesses()} disabled={loadingProcs}>
               {t.btnRefreshProcesses}
             </button>
@@ -772,7 +892,7 @@ function ActiveGuardDashboard({
                   <tr key={p.pid} className={p.riskLevel === 'high' ? 'row-danger' : 'row-warn'}>
                     <td><code>{p.pid}</code></td>
                     <td><strong>{p.name}</strong></td>
-                    <td style={{ maxWidth: 360, overflow: 'hidden', textOverflow: 'ellipsis' }} title={p.commandLine}>
+                    <td style={{ maxWidth: 340, overflow: 'hidden', textOverflow: 'ellipsis' }} title={p.commandLine}>
                       <code>{p.executablePath || p.commandLine}</code>
                     </td>
                     <td>
@@ -795,7 +915,7 @@ function ActiveGuardDashboard({
             </table>
           </div>
         ) : (
-          <p className="muted">✅ {t.noSuspiciousProcesses}</p>
+          <p className="muted">{t.noSuspiciousProcesses}</p>
         )}
       </article>
 
@@ -803,27 +923,27 @@ function ActiveGuardDashboard({
       <div className="two-column">
         <article className="panel">
           <div className="panel-title">
-            <h3>📂 {t.watchedFoldersTitle}</h3>
-            <span>{guard.watchedFolders.length}</span>
+            <h3>{t.watchedFoldersTitle}</h3>
+            <span className="panel-count">{guard.watchedFolders.length}</span>
           </div>
           <ul className="list">
-            {guard.watchedFolders.map(f => <li key={f}>🟢 {f}</li>)}
+            {guard.watchedFolders.map(f => <li key={f} className="mono"><IconFolder size={13} /> {f}</li>)}
             {guard.watchedFolders.length === 0 && <li className="muted">{t.metricShieldOff}</li>}
           </ul>
         </article>
 
         <article className="panel">
           <div className="panel-title">
-            <h3>🪤 {t.canaryFilesTitle}</h3>
-            <span>{guard.canaryFiles.length}</span>
+            <h3>{t.canaryFilesTitle}</h3>
+            <span className="panel-count">{guard.canaryFiles.length}</span>
           </div>
           <ul className="list">
-            {guard.canaryFiles.map(f => <li key={f}>🛡️ {f}</li>)}
+            {guard.canaryFiles.map(f => <li key={f} className="mono"><IconShield size={13} /> {f}</li>)}
             {guard.canaryFiles.length === 0 && <li className="muted">{t.metricCanaryOff}</li>}
           </ul>
         </article>
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -841,73 +961,63 @@ function QuarantineView({
 }) {
   const t = translations[lang]
   return (
-    <section className="results">
-      <div className="result-heading">
-        <div>
-          <p className="eyebrow">{t.eyebrow}</p>
-          <h2>🔒 {t.quarantineTitle}</h2>
-          <p style={{ margin: '6px 0 0', color: '#8ba4bf', fontSize: 14 }}>{t.quarantineSubtitle}</p>
-        </div>
+    <article className="panel">
+      <div className="panel-title">
+        <h3><IconVault size={15} /> {t.quarantineTitle}</h3>
+        <span className="panel-count">{guard.quarantine.length}</span>
       </div>
 
-      <article className="panel">
-        <div className="panel-title">
-          <h3>{t.quarantineTitle}</h3>
-          <span>{guard.quarantine.length}</span>
-        </div>
-
-        {guard.quarantine.length > 0 ? (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>{t.colDate}</th>
-                  <th>{t.colFile}</th>
-                  <th>{t.colCategory}</th>
-                  <th>{t.colScore}</th>
-                  <th>SHA-256</th>
-                  <th>{t.colAction}</th>
+      {guard.quarantine.length > 0 ? (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>{t.colDate}</th>
+                <th>{t.colFile}</th>
+                <th>{t.colCategory}</th>
+                <th>{t.colScore}</th>
+                <th>SHA-256</th>
+                <th>{t.colAction}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {guard.quarantine.map(item => (
+                <tr key={item.id}>
+                  <td className="mono">{new Date(item.quarantinedAt).toLocaleString()}</td>
+                  <td>
+                    <strong>{item.fileName}</strong>
+                    <small style={{ display: 'block', color: '#7d8590' }}>{item.originalPath}</small>
+                  </td>
+                  <td>
+                    <span className={`finding-cat cat-${item.category}`}>
+                      {categoryLabels[lang][item.category]}
+                    </span>
+                  </td>
+                  <td><strong className="text-danger mono">{item.riskScore}/100</strong></td>
+                  <td><code style={{ fontSize: 11 }}>{item.sha256.slice(0, 20)}…</code></td>
+                  <td>
+                    <div className="actions">
+                      <button className="ghost-sm" onClick={() => onRestore(item.id)}>
+                        {t.btnRestore}
+                      </button>
+                      <button className="ghost-sm danger-btn" onClick={() => onDelete(item.id)}>
+                        {t.btnDeletePerm}
+                      </button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {guard.quarantine.map(item => (
-                  <tr key={item.id}>
-                    <td>{new Date(item.quarantinedAt).toLocaleString()}</td>
-                    <td>
-                      <strong>{item.fileName}</strong>
-                      <small style={{ display: 'block', color: '#6a7f96' }}>{item.originalPath}</small>
-                    </td>
-                    <td>
-                      <span className={`finding-cat cat-${item.category}`}>
-                        {categoryLabels[lang][item.category]}
-                      </span>
-                    </td>
-                    <td><strong className="text-danger">{item.riskScore}/100</strong></td>
-                    <td><code style={{ fontSize: 11 }}>{item.sha256.slice(0, 20)}…</code></td>
-                    <td>
-                      <div className="actions">
-                        <button className="ghost-sm" onClick={() => onRestore(item.id)}>
-                          {t.btnRestore}
-                        </button>
-                        <button className="ghost-sm danger-btn" onClick={() => onDelete(item.id)}>
-                          {t.btnDeletePerm}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="muted">{t.noQuarantine}</p>
-        )}
-      </article>
-    </section>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="muted">{t.noQuarantine}</p>
+      )}
+    </article>
   )
 }
 
-// ── Main Application ──────────────────────────────────────────────────────────
+// ── Main Desktop Application ──────────────────────────────────────────────────
 export default function App() {
   const inputRef     = useRef<HTMLInputElement>(null)
   const telemetryRef = useRef<HTMLInputElement>(null)
@@ -917,14 +1027,15 @@ export default function App() {
     return saved === 'en' || saved === 'pt' ? saved : 'pt'
   })
   const [activeTab, setActiveTab] = useState<'guard' | 'scanner' | 'quarantine'>('guard')
+  const [scannerSubTab, setScannerSubTab] = useState<ScannerSubTab>('overview')
 
-  const [guard, setGuard]       = useState<GuardStatus>(DEFAULT_GUARD_STATUS)
-  const [analysis, setAnalysis] = useState<PeAnalysis>()
-  const [history, setHistory]   = useState<PeAnalysis[]>([])
-  const [events, setEvents]     = useState<TelemetryEvent[]>([])
-  const [error, setError]       = useState<string>()
-  const [loading, setLoading]   = useState(false)
-  const [dragging, setDragging] = useState(false)
+  const [guard, setGuard]         = useState<GuardStatus>(DEFAULT_GUARD_STATUS)
+  const [analysis, setAnalysis]   = useState<PeAnalysis>()
+  const [history, setHistory]     = useState<PeAnalysis[]>([])
+  const [events, setEvents]       = useState<TelemetryEvent[]>([])
+  const [error, setError]         = useState<string>()
+  const [loading, setLoading]     = useState(false)
+  const [dragging, setDragging]   = useState(false)
   const [noticeMsg, setNoticeMsg] = useState<string>()
 
   const t = translations[lang]
@@ -934,7 +1045,6 @@ export default function App() {
     localStorage.setItem('sentinel_lang', next)
   }
 
-  // Subscribe to Electron Real-Time Guard IPC
   useEffect(() => {
     if (!window.sentinelGuard) return
     void window.sentinelGuard.getStatus().then(setGuard)
@@ -945,6 +1055,7 @@ export default function App() {
   const inspect = async (file?: File | null) => {
     if (!file) return
     setActiveTab('scanner')
+    setScannerSubTab('overview')
     setLoading(true)
     setError(undefined)
     try {
@@ -964,6 +1075,7 @@ export default function App() {
     setError(undefined)
     try {
       setEvents(await importTelemetry(file))
+      setScannerSubTab('rules')
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Invalid telemetry JSON.')
     }
@@ -1002,8 +1114,8 @@ export default function App() {
     if (res.ok) {
       setNoticeMsg(
         lang === 'pt'
-          ? `Arquivo movido com segurança para o Cofre de Quarentena!`
-          : `File safely moved to the Quarantine Vault!`
+          ? 'Arquivo isolado com segurança no Cofre de Quarentena AES-256-GCM.'
+          : 'File safely isolated in the AES-256-GCM Quarantine Vault.'
       )
       setTimeout(() => setNoticeMsg(undefined), 5000)
     } else if (res.error && !res.error.toLowerCase().includes('cancel')) {
@@ -1015,7 +1127,7 @@ export default function App() {
     if (!analysis?.filePath) return
     await handleQuarantineByPath(
       analysis.filePath,
-      `Manual quarantine from Static Analyzer (Score ${analysis.riskScore}/100)`
+      `Manual quarantine from Static Inspector (Score ${analysis.riskScore}/100)`
     )
   }
 
@@ -1026,8 +1138,8 @@ export default function App() {
     if (res.ok) {
       setNoticeMsg(
         lang === 'pt'
-          ? 'Arquivo restaurado com sucesso para o caminho original!'
-          : 'File successfully restored to its original path!'
+          ? 'Arquivo restaurado com verificação de integridade SHA-256.'
+          : 'File restored with SHA-256 integrity verification.'
       )
       setTimeout(() => setNoticeMsg(undefined), 5000)
     } else if (res.error && !res.error.toLowerCase().includes('cancel')) {
@@ -1042,8 +1154,8 @@ export default function App() {
     if (res.ok) {
       setNoticeMsg(
         lang === 'pt'
-          ? 'Arquivo excluído permanentemente do cofre.'
-          : 'File permanently deleted from quarantine.'
+          ? 'Arquivo removido permanentemente do cofre.'
+          : 'File permanently deleted from quarantine vault.'
       )
       setTimeout(() => setNoticeMsg(undefined), 5000)
     } else if (res.error && !res.error.toLowerCase().includes('cancel')) {
@@ -1051,66 +1163,42 @@ export default function App() {
     }
   }
 
-  // Drag & drop anywhere
   const onDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault(); setDragging(true)
+    e.preventDefault()
+    setDragging(true)
   }, [])
   const onDragLeave = useCallback(() => setDragging(false), [])
   const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault(); setDragging(false)
+    e.preventDefault()
+    setDragging(false)
     void inspect(e.dataTransfer.files?.[0])
   }, [])
 
+  const headerTitle =
+    activeTab === 'guard' ? t.guardTitle :
+    activeTab === 'scanner' ? (analysis ? `${t.navScanner} — ${analysis.fileName}` : t.navScanner) :
+    t.quarantineTitle
+
+  const headerSubtitle =
+    activeTab === 'guard' ? t.guardSubtitle :
+    activeTab === 'scanner' ? t.privacyNote :
+    t.quarantineSubtitle
+
   return (
-    <main
+    <div
+      className="app-shell"
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
-      className={dragging ? 'drag-over' : ''}
     >
-      {dragging && <div className="drop-overlay"><span>{t.dropOverlay}</span></div>}
-
-      {/* Top Bar */}
-      <header className="topbar">
-        <div className="brand">
-          <span className="brand-mark">S</span>
-          <span>Sentinel <b>PE</b></span>
-        </div>
-
-        <nav className="nav-tabs">
-          <button
-            className={`nav-tab ${activeTab === 'guard' ? 'active' : ''}`}
-            onClick={() => setActiveTab('guard')}
-          >
-            🛡️ {t.navGuard}
-            {guard.alerts.length > 0 && <span className="nav-badge danger">{guard.alerts.length}</span>}
-          </button>
-          <button
-            className={`nav-tab ${activeTab === 'scanner' ? 'active' : ''}`}
-            onClick={() => setActiveTab('scanner')}
-          >
-            🔬 {t.navScanner}
-          </button>
-          <button
-            className={`nav-tab ${activeTab === 'quarantine' ? 'active' : ''}`}
-            onClick={() => setActiveTab('quarantine')}
-          >
-            🔒 {t.navQuarantine}
-            {guard.quarantine.length > 0 && <span className="nav-badge">{guard.quarantine.length}</span>}
-          </button>
-        </nav>
-
-        <div className="topbar-right">
-          <span className="status">
-            <i className={guard.enabled ? '' : 'paused'} />
-            {guard.enabled ? t.statusActive : t.statusPaused}
-          </span>
-          <div className="lang-switch">
-            <button className={lang === 'pt' ? 'active' : ''} onClick={() => toggleLang('pt')}>PT</button>
-            <button className={lang === 'en' ? 'active' : ''} onClick={() => toggleLang('en')}>EN</button>
+      {dragging && (
+        <div className="drop-overlay">
+          <div className="drop-overlay-box">
+            <IconUpload size={28} />
+            <span>{t.dropOverlay}</span>
           </div>
         </div>
-      </header>
+      )}
 
       {/* Hidden File Inputs */}
       <input
@@ -1128,289 +1216,453 @@ export default function App() {
         hidden
       />
 
-      {noticeMsg && (
-        <section className="notice ok-notice" style={{ maxWidth: 1180, margin: '12px auto' }}>
-          {noticeMsg}
-        </section>
-      )}
-      {error && (
-        <section className="notice error" style={{ maxWidth: 1180, margin: '12px auto' }}>
-          {error}
-        </section>
-      )}
+      {/* Left Sidebar Navigation */}
+      <aside className="sidebar">
+        <div className="sidebar-brand">
+          <div className="brand-logo">
+            <IconShield size={18} />
+          </div>
+          <div className="brand-text">
+            <div className="brand-title">Sentinel <span>PE</span></div>
+            <div className="brand-sub">Endpoint & Binary Triage</div>
+          </div>
+        </div>
 
-      {/* TAB 1: ACTIVE GUARD */}
-      {activeTab === 'guard' && (
-        <ActiveGuardDashboard
-          guard={guard}
-          lang={lang}
-          onToggleConfig={cfg => void handleToggleGuardConfig(cfg)}
-          onScanFolder={() => void handleScanFolder()}
-          onSelectFile={() => inputRef.current?.click()}
-          onClearAlerts={() => void window.sentinelGuard?.clearAlerts().then(setGuard)}
-          onOpenQuarantine={() => setActiveTab('quarantine')}
-          onQuarantineFile={(fp, reason) => void handleQuarantineByPath(fp, reason)}
-        />
-      )}
+        <div className="sidebar-section-label">Módulos</div>
+        <nav className="sidebar-nav">
+          <button
+            className={`sidebar-item ${activeTab === 'guard' ? 'active' : ''}`}
+            onClick={() => setActiveTab('guard')}
+          >
+            <span className="sidebar-icon"><IconShield size={16} /></span>
+            <span>{t.navGuard}</span>
+            {guard.alerts.length > 0 && (
+              <span className="sidebar-badge danger">{guard.alerts.length}</span>
+            )}
+          </button>
 
-      {/* TAB 3: QUARANTINE VAULT */}
-      {activeTab === 'quarantine' && (
-        <QuarantineView
-          guard={guard}
-          lang={lang}
-          onRestore={id => void handleRestoreQuarantine(id)}
-          onDelete={id => void handleDeleteQuarantine(id)}
-        />
-      )}
+          <button
+            className={`sidebar-item ${activeTab === 'scanner' ? 'active' : ''}`}
+            onClick={() => setActiveTab('scanner')}
+          >
+            <span className="sidebar-icon"><IconScanner size={16} /></span>
+            <span>{t.navScanner}</span>
+            {analysis && (
+              <span className="sidebar-badge">{analysis.riskScore}</span>
+            )}
+          </button>
 
-      {/* TAB 2: STATIC ANALYZER */}
-      {activeTab === 'scanner' && (
-        <>
-          {!analysis && !loading && (
+          <button
+            className={`sidebar-item ${activeTab === 'quarantine' ? 'active' : ''}`}
+            onClick={() => setActiveTab('quarantine')}
+          >
+            <span className="sidebar-icon"><IconVault size={16} /></span>
+            <span>{t.navQuarantine}</span>
+            {guard.quarantine.length > 0 && (
+              <span className="sidebar-badge">{guard.quarantine.length}</span>
+            )}
+          </button>
+        </nav>
+
+        <div className="sidebar-section-label">Ações Rápidas</div>
+        <div className="sidebar-actions">
+          <button className="btn-primary" onClick={() => inputRef.current?.click()}>
+            <IconUpload size={14} />
+            <span>{t.btnSelectFile}</span>
+          </button>
+          <button className="btn-secondary" onClick={() => void handleScanFolder()}>
+            <IconFolder size={14} />
+            <span>{t.btnScanFolder}</span>
+          </button>
+        </div>
+
+        <div className="sidebar-footer">
+          <div className="engine-status-box">
+            <span
+              className={`status-dot ${
+                guard.canaryStatus === 'tampered'
+                  ? 'danger'
+                  : guard.enabled
+                    ? ''
+                    : 'paused'
+              }`}
+            />
+            <div className="engine-status-text">
+              <strong>{guard.enabled ? t.statusActive : t.statusPaused}</strong>
+              <span>{t.statusOffline}</span>
+            </div>
+          </div>
+
+          <div className="sidebar-meta-row">
+            <span className="version-tag">v0.3.0 · x64</span>
+            <div className="lang-switch">
+              <button className={lang === 'pt' ? 'active' : ''} onClick={() => toggleLang('pt')}>PT</button>
+              <button className={lang === 'en' ? 'active' : ''} onClick={() => toggleLang('en')}>EN</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Workspace */}
+      <div className="workspace">
+        <header className="workspace-header">
+          <div className="workspace-header-left">
+            <h1>{headerTitle}</h1>
+            <p>{headerSubtitle}</p>
+          </div>
+          <div className="actions">
+            <button className="btn-secondary" onClick={() => void handleScanFolder()}>
+              <IconFolder size={14} /> {t.btnScanFolder}
+            </button>
+            <button className="btn-primary" onClick={() => inputRef.current?.click()}>
+              <IconUpload size={14} /> {t.btnSelectFile}
+            </button>
+          </div>
+        </header>
+
+        <div className="workspace-body">
+          {noticeMsg && (
+            <div className="notice ok-notice">
+              <span>{noticeMsg}</span>
+            </div>
+          )}
+          {error && (
+            <div className="notice">
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* VIEW 1: PROTECTION CENTER */}
+          {activeTab === 'guard' && (
+            <ActiveGuardDashboard
+              guard={guard}
+              lang={lang}
+              onToggleConfig={cfg => void handleToggleGuardConfig(cfg)}
+              onScanFolder={() => void handleScanFolder()}
+              onSelectFile={() => inputRef.current?.click()}
+              onClearAlerts={() => void window.sentinelGuard?.clearAlerts().then(setGuard)}
+              onOpenQuarantine={() => setActiveTab('quarantine')}
+              onQuarantineFile={(fp, reason) => void handleQuarantineByPath(fp, reason)}
+            />
+          )}
+
+          {/* VIEW 3: QUARANTINE VAULT */}
+          {activeTab === 'quarantine' && (
+            <QuarantineView
+              guard={guard}
+              lang={lang}
+              onRestore={id => void handleRestoreQuarantine(id)}
+              onDelete={id => void handleDeleteQuarantine(id)}
+            />
+          )}
+
+          {/* VIEW 2: STATIC PE INSPECTOR */}
+          {activeTab === 'scanner' && (
             <>
-              <section className="hero">
-                <p className="eyebrow">{t.eyebrow}</p>
-                <h1>{t.heroTitle1}<br /><em>{t.heroTitle2}</em></h1>
-                <p className="lead">{t.heroLead}</p>
-                <div className="actions" style={{ justifyContent: 'center' }}>
-                  <button className="primary" onClick={() => inputRef.current?.click()}>
-                    {t.btnSelectFile}
-                  </button>
-                  <button className="ghost" onClick={() => void handleScanFolder()}>
-                    {t.btnScanFolder}
-                  </button>
-                </div>
-                <p style={{ fontSize: 12, color: '#6a7f96', marginTop: 12 }}>{t.dropHint}</p>
-                <p className="privacy">{t.privacyNote}</p>
-              </section>
+              {!analysis && !loading && (
+                <div>
+                  <div className="forensic-dropzone">
+                    <div className="dropzone-icon">
+                      <IconUpload size={22} />
+                    </div>
+                    <h2>{t.heroTitle1} — {t.heroTitle2}</h2>
+                    <p>{t.heroLead}</p>
+                    <div className="actions" style={{ justifyContent: 'center', marginBottom: 14 }}>
+                      <button className="btn-primary" onClick={() => inputRef.current?.click()}>
+                        <IconUpload size={14} /> {t.btnSelectFile}
+                      </button>
+                      <button className="btn-secondary" onClick={() => void handleScanFolder()}>
+                        <IconFolder size={14} /> {t.btnScanFolder}
+                      </button>
+                    </div>
+                    <small style={{ color: '#6e7681', fontSize: 11.5 }}>{t.dropHint}</small>
+                  </div>
 
-              <section className="empty">
-                <div>01</div>
-                <h2>{t.emptyReadyTitle}</h2>
-                <p>{t.emptyReadySub}</p>
-              </section>
+                  <div className="spec-grid">
+                    <div className="spec-card">
+                      <h4>{t.cardRansomware} & {t.cardInfostealer}</h4>
+                      <p>{t.emptyReadySub}</p>
+                    </div>
+                    <div className="spec-card">
+                      <h4>{t.findingsTitle}</h4>
+                      <p>Classificação separada entre Capacidades de API, Indícios de Alta Especificidade e Contexto Estrutural PE.</p>
+                    </div>
+                    <div className="spec-card">
+                      <h4>{t.ruleLabTitle}</h4>
+                      <p>Geração determinística e auto-validação sintática de regras YARA e Sigma YAML prontas para SIEM/EDR.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {loading && (
+                <div className="forensic-dropzone">
+                  <div className="spinner" />
+                  <h2>{t.loadingTitle}</h2>
+                  <p>{t.loadingSub}</p>
+                </div>
+              )}
+
+              {analysis && !loading && (
+                <div>
+                  {/* Session History Bar */}
+                  {history.length > 1 && (
+                    <div className="history-bar">
+                      <span>{t.sessionHistory}:</span>
+                      {history.map(item => (
+                        <button
+                          key={item.sha256}
+                          className={`ghost-sm ${item.sha256 === analysis.sha256 ? 'active' : ''}`}
+                          onClick={() => setAnalysis(item)}
+                        >
+                          {item.fileName} ({item.riskScore})
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Sample Command Header */}
+                  <div className="sample-header-card">
+                    <div className="sample-title-group">
+                      <div className="sample-file-icon">
+                        <IconScanner size={18} />
+                      </div>
+                      <div>
+                        <h2>{analysis.fileName}</h2>
+                        <p className="sample-meta-line">
+                          {fmtBytes(analysis.fileSize)} · {analysis.architecture} · {analysis.subsystem} · SHA256: {analysis.sha256.slice(0, 16)}…
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="actions">
+                      {analysis.filePath && window.sentinelGuard && (
+                        <button className="ghost-sm danger-btn" onClick={() => void handleQuarantineCurrent()}>
+                          {t.btnQuarantineCurrent}
+                        </button>
+                      )}
+                      <button className="ghost-sm" onClick={() => downloadJsonReport(analysis)}>JSON</button>
+                      <button className="ghost-sm" onClick={() => downloadText(`${analysis.fileName}.md`, markdownReport(analysis), 'text/markdown')}>Markdown</button>
+                      <button className="ghost-sm" onClick={() => downloadText(`${analysis.fileName}.yara`, yaraRule(analysis) + yaraRuleBehavioral(analysis))}>YARA</button>
+                      <button className="ghost-sm" onClick={() => downloadText(`${analysis.fileName}.sigma.yml`, sigmaRule(analysis), 'text/yaml')}>Sigma</button>
+                      <button className="ghost-sm" onClick={() => window.print()}>{t.btnPrintPdf}</button>
+                      <button className="ghost-sm" onClick={() => telemetryRef.current?.click()}>{t.btnImportTelemetry}</button>
+                    </div>
+                  </div>
+
+                  {/* Executive Assessment Strip */}
+                  <AssessmentStrip analysis={analysis} lang={lang} />
+
+                  {/* Key Binary Metrics Strip */}
+                  <div className="summary-subgrid">
+                    <Metric label={t.labelEntryPoint} value={analysis.entryPoint} mono />
+                    <Metric label={t.labelImageBase}  value={analysis.imageBase} mono />
+                    <Metric label={t.labelSigned}     value={analysis.isAuthenticodeSigned ? t.certUnverified : t.no} />
+                    <Metric label={t.labelTls}        value={analysis.hasTlsCallbacks ? t.yesWarn : t.noClean} />
+                  </div>
+
+                  {/* Forensic Sub-Tabs */}
+                  <div className="subtabs-bar">
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'overview' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('overview')}
+                    >
+                      {t.subTabOverview} ({analysis.findings.length})
+                    </button>
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'structure' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('structure')}
+                    >
+                      {t.subTabStructure} ({analysis.sections.length})
+                    </button>
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'imports' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('imports')}
+                    >
+                      {t.subTabImports} ({analysis.importedFunctions.length})
+                    </button>
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'strings' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('strings')}
+                    >
+                      {t.subTabStrings} ({analysis.strings.length + analysis.unicodeStrings.length})
+                    </button>
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'rules' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('rules')}
+                    >
+                      {t.subTabRules}
+                    </button>
+                    <button
+                      className={`subtab-btn ${scannerSubTab === 'all' ? 'active' : ''}`}
+                      onClick={() => setScannerSubTab('all')}
+                    >
+                      {t.subTabAll}
+                    </button>
+                  </div>
+
+                  {/* SUB-TAB 1: OVERVIEW (FINDINGS & HASHES) */}
+                  {(scannerSubTab === 'overview' || scannerSubTab === 'all') && (
+                    <>
+                      <FindingsPanel findings={analysis.findings} lang={lang} />
+                      <HashesPanel analysis={analysis} lang={lang} />
+                    </>
+                  )}
+
+                  {/* SUB-TAB 2: PE STRUCTURE, SECTIONS, MITIGATIONS & EXTENDED METADATA */}
+                  {(scannerSubTab === 'structure' || scannerSubTab === 'all') && (
+                    <>
+                      <div className="two-column">
+                        <SectionsTable sections={analysis.sections} lang={lang} />
+                        <MitigationsPanel
+                          dllChars={analysis.dllCharacteristics}
+                          isAuthenticodeSigned={analysis.isAuthenticodeSigned}
+                          hasTls={analysis.hasTlsCallbacks}
+                          lang={lang}
+                        />
+                      </div>
+
+                      {(analysis.pdbPath || analysis.overlay || analysis.richHeaderHash || analysis.isDotNet || analysis.embeddedManifest?.executionLevel || analysis.hasDelayImports || analysis.apiSetImports.length > 0) && (
+                        <article className="panel">
+                          <div className="panel-title"><h3>{t.extraMetaTitle}</h3></div>
+                          <div className="hash-grid">
+                            {analysis.isDotNet && (
+                              <div className="hash-row">
+                                <span className="hash-label">.NET CLR</span>
+                                <code className="hash-value">Managed Assembly (COM+ Runtime Header Present)</code>
+                              </div>
+                            )}
+                            {analysis.embeddedManifest?.executionLevel && (
+                              <div className="hash-row">
+                                <span className="hash-label">Manifest UAC</span>
+                                <code className="hash-value">{analysis.embeddedManifest.executionLevel}</code>
+                              </div>
+                            )}
+                            {analysis.hasDelayImports && (
+                              <div className="hash-row">
+                                <span className="hash-label">Delay Imports</span>
+                                <code className="hash-value">Present (Delay-Load Import Descriptor Active)</code>
+                              </div>
+                            )}
+                            {analysis.apiSetImports.length > 0 && (
+                              <div className="hash-row">
+                                <span className="hash-label">API Sets</span>
+                                <code className="hash-value">{analysis.apiSetImports.join(', ')}</code>
+                              </div>
+                            )}
+                            {analysis.pdbPath && (
+                              <div className="hash-row">
+                                <span className="hash-label">PDB Path</span>
+                                <code className="hash-value">{analysis.pdbPath}</code>
+                                <CopyBtn value={analysis.pdbPath} />
+                              </div>
+                            )}
+                            {analysis.richHeaderHash && (
+                              <div className="hash-row">
+                                <span className="hash-label">Rich Header MD5</span>
+                                <code className="hash-value">{analysis.richHeaderHash}</code>
+                                <CopyBtn value={analysis.richHeaderHash} />
+                              </div>
+                            )}
+                            {analysis.overlay && (
+                              <div className="hash-row">
+                                <span className="hash-label">Overlay</span>
+                                <code className="hash-value">
+                                  {fmtBytes(analysis.overlay.size)} @ 0x{analysis.overlay.offset.toString(16).toUpperCase()}
+                                </code>
+                              </div>
+                            )}
+                          </div>
+                        </article>
+                      )}
+                    </>
+                  )}
+
+                  {/* SUB-TAB 3: IMPORTS & EXPORTS */}
+                  {(scannerSubTab === 'imports' || scannerSubTab === 'all') && (
+                    <div className="two-column">
+                      <ImportsPanel functions={analysis.importedFunctions} dlls={analysis.imports} lang={lang} />
+                      <ExportsPanel exports={analysis.exports} lang={lang} />
+                    </div>
+                  )}
+
+                  {/* SUB-TAB 4: STRINGS & IOCS */}
+                  {(scannerSubTab === 'strings' || scannerSubTab === 'all') && (
+                    <>
+                      <IndicatorsPanel indicators={analysis.indicators} lang={lang} />
+                      <StringsViewer ascii={analysis.strings} unicode={analysis.unicodeStrings} lang={lang} />
+                    </>
+                  )}
+
+                  {/* SUB-TAB 5: YARA/SIGMA TEST LAB & TELEMETRY CORRELATION */}
+                  {(scannerSubTab === 'rules' || scannerSubTab === 'all') && (
+                    <>
+                      <RuleTestLabPanel analysis={analysis} lang={lang} />
+
+                      <article className="panel">
+                        <div className="panel-title">
+                          <h3>{t.telemetryTitle}</h3>
+                          <div className="actions">
+                            <span className="panel-count">{events.length}</span>
+                            <button className="ghost-sm" onClick={() => telemetryRef.current?.click()}>
+                              {t.btnImportTelemetry}
+                            </button>
+                          </div>
+                        </div>
+                        {events.length > 0 && (() => {
+                          const chains = correlateTelemetryEvents(events)
+                          return chains.length > 0 ? (
+                            <div style={{ marginBottom: 14 }}>
+                              <h4 style={{ margin: '0 0 8px', fontSize: 12.5, color: '#ffa657' }}>
+                                {t.correlationTitle} ({chains.length})
+                              </h4>
+                              <ul className="findings-list">
+                                {chains.map(c => (
+                                  <li key={c.id}>
+                                    <div className="finding-header">
+                                      <b className={`severity ${c.severity}`}>{severityLabels[lang][c.severity]}</b>
+                                      <span className={`finding-cat cat-${c.category}`}>{categoryLabels[lang][c.category]}</span>
+                                      <span className="evidence-type ev-observed">{evidenceTypeLabels[lang].observed}</span>
+                                      <strong className="finding-title">{c.title}</strong>
+                                      <small className="mono" style={{ color: '#7d8590' }}>{c.process}</small>
+                                    </div>
+                                    <small className="finding-evidence">
+                                      <div>{c.justification}</div>
+                                      {c.steps.map((s, idx) => <div key={idx}>• [{s.stage}] {s.evidence}</div>)}
+                                    </small>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ) : (
+                            <p className="muted" style={{ marginBottom: 10 }}>{t.correlationEmpty}</p>
+                          )
+                        })()}
+                        {events.length ? (
+                          <ol className="timeline">
+                            {events.slice(0, 250).map((ev, i) => (
+                              <li key={`${ev.timestamp}-${i}`}>
+                                <time>{new Date(ev.timestamp).toLocaleString()}</time>
+                                <div>
+                                  <b>{ev.eventType}{ev.eventId ? ` (Event ID ${ev.eventId})` : ''}</b>
+                                  <small>{ev.source}{ev.process ? ` · ${ev.process}` : ''}{ev.pid ? ` (PID ${ev.pid})` : ''}</small>
+                                  <p>{ev.detail}</p>
+                                </div>
+                              </li>
+                            ))}
+                          </ol>
+                        ) : (
+                          <p className="muted">{t.telemetryEmpty}</p>
+                        )}
+                      </article>
+                    </>
+                  )}
+                </div>
+              )}
             </>
           )}
-
-          {loading && (
-            <section className="empty">
-              <div className="spinner" />
-              <h2>{t.loadingTitle}</h2>
-              <p>{t.loadingSub}</p>
-            </section>
-          )}
-
-          {analysis && !loading && (
-            <section className="results">
-              {/* Session History Bar */}
-              {history.length > 1 && (
-                <div className="history-bar">
-                  <span>{t.sessionHistory}:</span>
-                  {history.map(item => (
-                    <button
-                      key={item.sha256}
-                      className={`ghost-sm ${item.sha256 === analysis.sha256 ? 'active' : ''}`}
-                      onClick={() => setAnalysis(item)}
-                    >
-                      {item.fileName} ({item.riskScore})
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Heading & Export Actions */}
-              <div className="result-heading">
-                <div>
-                  <p className="eyebrow">{t.sampleAnalyzed}</p>
-                  <h2>{analysis.fileName}</h2>
-                  <p style={{ margin: '4px 0 0', color: '#6a7f96', fontSize: 13 }}>
-                    {fmtBytes(analysis.fileSize)} · {analysis.architecture} · {analysis.subsystem}
-                  </p>
-                </div>
-                <div className="actions flex-wrap">
-                  {analysis.filePath && window.sentinelGuard && (
-                    <button className="ghost danger-btn" onClick={() => void handleQuarantineCurrent()}>
-                      {t.btnQuarantineCurrent}
-                    </button>
-                  )}
-                  <button className="ghost" onClick={() => downloadJsonReport(analysis)}>JSON</button>
-                  <button className="ghost" onClick={() => downloadText(`${analysis.fileName}.md`, markdownReport(analysis), 'text/markdown')}>Markdown</button>
-                  <button className="ghost" onClick={() => downloadText(`${analysis.fileName}.yara`, yaraRule(analysis) + yaraRuleBehavioral(analysis))}>YARA</button>
-                  <button className="ghost" onClick={() => downloadText(`${analysis.fileName}.sigma.yml`, sigmaRule(analysis), 'text/yaml')}>Sigma</button>
-                  <button className="ghost" onClick={() => window.print()}>{t.btnPrintPdf}</button>
-                  <button className="ghost" onClick={() => telemetryRef.current?.click()}>{t.btnImportTelemetry}</button>
-                  <button className="primary" onClick={() => inputRef.current?.click()}>{t.btnNewAnalysis}</button>
-                </div>
-              </div>
-
-              {/* Executive Threat Summary Cards (Ransomware / Infostealer / Injection) */}
-              <ThreatOverviewCards findings={analysis.findings} lang={lang} />
-
-              {/* Score + Summary Grid */}
-              <div className="top-grid">
-                <RiskGauge
-                  score={analysis.riskScore}
-                  confidence={analysis.confidenceScore}
-                  decision={analysis.recommendedDecision}
-                  rationale={analysis.decisionRationale}
-                  lang={lang}
-                />
-                <div className="summary-subgrid">
-                  <Metric label={t.labelArch}       value={analysis.architecture} />
-                  <Metric label={t.labelSubsystem}  value={analysis.subsystem} />
-                  <Metric label={t.labelEntryPoint} value={analysis.entryPoint} mono />
-                  <Metric label={t.labelImageBase}  value={analysis.imageBase} mono />
-                  <Metric label={t.labelTimestamp}  value={new Date(analysis.timestamp).toLocaleDateString()} />
-                  <Metric label={t.labelSigned}     value={analysis.isAuthenticodeSigned ? t.certUnverified : t.no} />
-                  <Metric label={t.labelTls}        value={analysis.hasTlsCallbacks ? t.yesWarn : t.noClean} />
-                  <Metric label={t.labelSize}       value={fmtBytes(analysis.fileSize)} />
-                </div>
-              </div>
-
-              {/* Explainable Decision Rationale Banner */}
-              <article className="panel rationale-banner">
-                <strong>{t.decisionLabel}: {decisionLabels[lang][analysis.recommendedDecision]} ({t.confidenceLabel}: {analysis.confidenceScore}%)</strong>
-                <p style={{ margin: '4px 0 0', fontSize: 13, color: '#a9b8cb' }}>{analysis.decisionRationale}</p>
-              </article>
-
-              {/* Hashes & Hash Comparator */}
-              <HashesPanel analysis={analysis} lang={lang} />
-
-              {/* Findings */}
-              <FindingsPanel findings={analysis.findings} lang={lang} />
-
-              {/* Rule Test Lab */}
-              <RuleTestLabPanel analysis={analysis} lang={lang} />
-
-              {/* Sections + Mitigations */}
-              <div className="two-column">
-                <SectionsTable sections={analysis.sections} lang={lang} />
-                <MitigationsPanel
-                  dllChars={analysis.dllCharacteristics}
-                  isAuthenticodeSigned={analysis.isAuthenticodeSigned}
-                  hasTls={analysis.hasTlsCallbacks}
-                  lang={lang}
-                />
-              </div>
-
-              {/* Imports + Exports */}
-              <div className="two-column">
-                <ImportsPanel functions={analysis.importedFunctions} dlls={analysis.imports} lang={lang} />
-                <ExportsPanel exports={analysis.exports} lang={lang} />
-              </div>
-
-              {/* Indicators */}
-              <IndicatorsPanel indicators={analysis.indicators} lang={lang} />
-
-              {/* Strings */}
-              <StringsViewer ascii={analysis.strings} unicode={analysis.unicodeStrings} lang={lang} />
-
-              {/* External Telemetry & Behavioral Correlation Engine */}
-              <article className="panel telemetry">
-                <div className="panel-title"><h3>{t.telemetryTitle}</h3><span>{events.length}</span></div>
-                {events.length > 0 && (() => {
-                  const chains = correlateTelemetryEvents(events)
-                  return chains.length > 0 ? (
-                    <div style={{ marginBottom: 16 }}>
-                      <h4 style={{ margin: '0 0 8px', fontSize: 13, color: '#ff9f43' }}>🔗 {t.correlationTitle} ({chains.length})</h4>
-                      <ul className="findings-list">
-                        {chains.map(c => (
-                          <li key={c.id}>
-                            <div className="finding-header">
-                              <b className={`severity ${c.severity}`}>{severityLabels[lang][c.severity]}</b>
-                              <span className={`finding-cat cat-${c.category}`}>{categoryLabels[lang][c.category]}</span>
-                              <span className="evidence-type ev-observed">{evidenceTypeLabels[lang].observed}</span>
-                              <strong className="finding-title">{c.title}</strong>
-                              <small style={{ color: '#8ba4bf' }}>{c.process}</small>
-                            </div>
-                            <small className="finding-evidence">
-                              <div>{c.justification}</div>
-                              {c.steps.map((s, idx) => <div key={idx}>• [{s.stage}] {s.evidence}</div>)}
-                            </small>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    <p className="muted" style={{ fontSize: 12, marginBottom: 12 }}>{t.correlationEmpty}</p>
-                  )
-                })()}
-                {events.length ? (
-                  <ol className="timeline">
-                    {events.slice(0, 250).map((ev, i) => (
-                      <li key={`${ev.timestamp}-${i}`}>
-                        <time>{new Date(ev.timestamp).toLocaleString()}</time>
-                        <div>
-                          <b>{ev.eventType}{ev.eventId ? ` (Event ID ${ev.eventId})` : ''}</b>
-                          <small>{ev.source}{ev.process ? ` · ${ev.process}` : ''}{ev.pid ? ` (PID ${ev.pid})` : ''}</small>
-                          <p>{ev.detail}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <p className="muted">{t.telemetryEmpty}</p>
-                )}
-              </article>
-
-              {/* Compiler, .NET CLR, Delay-Imports, Manifest & Overlay Metadata */}
-              {(analysis.pdbPath || analysis.overlay || analysis.richHeaderHash || analysis.isDotNet || analysis.embeddedManifest?.executionLevel || analysis.hasDelayImports || analysis.apiSetImports.length > 0) && (
-                <article className="panel">
-                  <div className="panel-title"><h3>{t.extraMetaTitle}</h3></div>
-                  <div className="hash-grid">
-                    {analysis.isDotNet && (
-                      <div className="hash-row">
-                        <span className="hash-label">.NET CLR</span>
-                        <code className="hash-value">Managed Assembly (COM+ Runtime Header Present)</code>
-                      </div>
-                    )}
-                    {analysis.embeddedManifest?.executionLevel && (
-                      <div className="hash-row">
-                        <span className="hash-label">Manifest UAC</span>
-                        <code className="hash-value">{analysis.embeddedManifest.executionLevel}</code>
-                      </div>
-                    )}
-                    {analysis.hasDelayImports && (
-                      <div className="hash-row">
-                        <span className="hash-label">Delay Imports</span>
-                        <code className="hash-value">Present (Delay-Load Import Descriptor Active)</code>
-                      </div>
-                    )}
-                    {analysis.apiSetImports.length > 0 && (
-                      <div className="hash-row">
-                        <span className="hash-label">API Sets</span>
-                        <code className="hash-value">{analysis.apiSetImports.join(', ')}</code>
-                      </div>
-                    )}
-                    {analysis.pdbPath && (
-                      <div className="hash-row">
-                        <span className="hash-label">PDB Path</span>
-                        <code className="hash-value">{analysis.pdbPath}</code>
-                        <CopyBtn value={analysis.pdbPath} />
-                      </div>
-                    )}
-                    {analysis.richHeaderHash && (
-                      <div className="hash-row">
-                        <span className="hash-label">Rich Header MD5</span>
-                        <code className="hash-value">{analysis.richHeaderHash}</code>
-                        <CopyBtn value={analysis.richHeaderHash} />
-                      </div>
-                    )}
-                    {analysis.overlay && (
-                      <div className="hash-row">
-                        <span className="hash-label">Overlay</span>
-                        <code className="hash-value">
-                          {fmtBytes(analysis.overlay.size)} @ 0x{analysis.overlay.offset.toString(16).toUpperCase()}
-                        </code>
-                      </div>
-                    )}
-                  </div>
-                </article>
-              )}
-            </section>
-          )}
-        </>
-      )}
-    </main>
+        </div>
+      </div>
+    </div>
   )
 }
